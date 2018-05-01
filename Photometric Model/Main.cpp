@@ -43,7 +43,10 @@ int main()
     for(int ny = 0; ny<ccd.GetY();ny++)
     {
         // test write to terminal
-        std::cout << dt << std::endl;
+        if(ny != 0)
+        {
+            std::cout << dt << "seconds" << std::endl;
+        }
         
         float ccd_int = 0.0f;
         float ccd_int_disk = 0.0f;
@@ -90,7 +93,7 @@ int main()
             // normalizes disk intensity based on how much of disk is in one pixel
             if(disk_cnt != 0)
             {
-                ccd_int_disk = ccd_int_disk/disk_cnt;
+                ccd_int_disk = ccd_int_disk/float(disk_cnt);
             }
             else
             {
@@ -100,7 +103,7 @@ int main()
             // normalizes disk intensity based on how much of bar is in one pixel
             if(bar_cnt != 0)
             {
-                ccd_int_bar = ccd_int_bar/bar_cnt;
+                ccd_int_bar = ccd_int_bar/float(bar_cnt);
             }
             else
             {
@@ -111,7 +114,10 @@ int main()
             ccd_int += ccd_int_disk+ccd_int_disk;
             // assigns this pixel intensity to array to be written out
             dum[nx] = ccd_int;
-            
+            if(ccd_int != 0)
+            {
+                std::cout << ccd_int << std::endl;
+            }
             // resets the values for next iteration
             ccd_int = 0.0f;
             ccd_int_disk=0.0f;
