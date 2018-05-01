@@ -52,7 +52,7 @@ void Galaxy::genCoords(int i, int j, int coord_len, const CCD& ccd)
     x = x/distance*206265.0f/ccd.GetPix();
     y = y/distance*206265.0f/ccd.GetPix();
     // bar coordinates
-    r = pow(pow(abs(x),shape) + pow(abs(y)/(1.0f - ellip),shape),1.0f/shape);
+    bar_coord = pow(pow(abs(x),shape) + pow(abs(y)/(1.0f - ellip),shape),1.0f/shape);
 }
 
 float Galaxy::rotCoordX_disk(float x, float y, int xcen)
@@ -86,9 +86,9 @@ float Galaxy::rotCoordY_bar(float x, float y, int ycen)
     return x*cos(inc_rad)*sin(pa_rad) + y*cos(pa_rad) + float(ycen);
 }
 
-float Galaxy::inten(float x_in, float y_in, float r_in)
+float Galaxy::inten(float x_in, float y_in, float r_in, float pix_factor)
 {
-    return disk.inten(x_in, y_in) + bar.inten(r_in);
+    return disk.inten(x_in, y_in, pix_factor) + bar.inten(r_in, pix_factor);
 }
 
 float Galaxy::GetX() const
@@ -101,9 +101,9 @@ float Galaxy::GetY() const
     return y;
 }
 
-float Galaxy::GetR() const
+float Galaxy::GetBarCoord() const
 {
-    return r;
+    return bar_coord;
 }
 
 float Galaxy::GetDistance() const

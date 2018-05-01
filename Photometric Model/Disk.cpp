@@ -18,9 +18,10 @@ Disk::Disk(float cen_int_in, float scale_in, float pa_in, float rmax_in)
 {
 }
 
-float Disk::inten(float x, float y)
+float Disk::inten(float x, float y, float pix_factor)
 {
-    return cen_int*exp(-sqrt(x*x + y*y)/scale);
+    const float scale_pix = scale*pix_factor;
+    return cen_int*exp(-sqrt(x*x + y*y)/scale_pix);
 }
 
 float Disk::GetRmax() const

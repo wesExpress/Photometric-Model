@@ -19,11 +19,12 @@ Bar::Bar(float cen_int_in, float pa_in, float ellip_in, float len_in, float shap
 {
 }
 
-float Bar::inten(float r)
+float Bar::inten(float r, float pix_factor)
 {
+    const float len_pix = len*pix_factor;
     if(r<len)
     {
-        return cen_int*pow(1.0f - (r/len)*(r/len),2.5f);
+        return cen_int*pow(1.0f - (r/len_pix)*(r/len_pix),2.5f);
     }
     else
     {

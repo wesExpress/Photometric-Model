@@ -29,6 +29,8 @@ int main()
     CCD ccd(pixscale,nx_ccd,ny_ccd);
     float dum[nx_ccd] = {0.0f};
     
+    const float pix_factor = 1.0f/galaxy.GetDistance()*206265.0f/ccd.GetPix();
+    
     // looping variables
     static constexpr int rad_len = 500;
     static constexpr int coord_len = 2*rad_len;
@@ -65,9 +67,9 @@ int main()
                     galaxy.genCoords(i, j, coord_len, ccd);
                     float x = galaxy.GetX();
                     float y = galaxy.GetY();
-                    float r = galaxy.GetR();
+                    float barCoord = galaxy.GetBarCoord();
                 
-                    float inten = galaxy.inten(x,y,r);
+                    float inten = galaxy.inten(x,y,barCoord,pix_factor);
                 
                     int xcen = ccd.GetX()/2;
                     int ycen = ccd.GetY()/2;

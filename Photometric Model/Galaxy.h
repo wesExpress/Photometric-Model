@@ -25,21 +25,21 @@ public:
     float rotCoordY_disk(float x, float y, int ycen);
     float rotCoordX_bar(float x, float y, int xcen);
     float rotCoordY_bar(float x, float y, int ycen);
-    float inten(float x_in, float y_in, float r_in);
+    float inten(float x_in, float y_in, float barCoord_in, float factor);
     float GetX() const;
     float GetY() const;
-    float GetR() const;
+    float GetBarCoord() const;
     float GetDistance() const;
     float GetInclination() const;
 private:
-    // random values for initializations
+    // random initializations
     std::random_device rd;
     std::mt19937 rng;
     
     // parameters of the galaxy
     float x;
     float y;
-    float r;
+    float bar_coord;
     float distance;
     float inclination;
     // distributions for parameters

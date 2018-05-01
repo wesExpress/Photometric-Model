@@ -15,7 +15,7 @@ class Disk
 {
 public:
     Disk(float cen_int_in, float scale_in, float pa_in, float rmax_in);
-    float inten(float x, float y);
+    float inten(float x, float y, float scale_pix);
     float GetRmax() const;
     float GetPa() const;
 private:
