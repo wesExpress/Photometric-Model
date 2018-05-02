@@ -33,8 +33,8 @@ Galaxy::Galaxy()
 
     // bar distributions and values
     cen_int_bar_dist(75.0f,300.0f),
-    bar_ellip_dist(0.2f,0.7f),
-    bar_len_dist(2.0f,5.0f),
+    bar_ellip_dist(0.5f,0.7f),
+    bar_len_dist(5.0f,6.0f),
     bar_shape_dist(1.8f,2.2f),
     bar(cen_int_bar_dist(rng),pa_dist(rng),bar_ellip_dist(rng),bar_len_dist(rng),bar_shape_dist(rng))
 {
@@ -67,7 +67,7 @@ void Galaxy::genCoordsNew(int x_in, int y_in, const CCD& ccd)
     y = float(y_in-ycen)*cos(pa_rad) - float(x_in-xcen)*sin(pa_rad);
 
     // bar coordinate
-    bar_coord = pow(pow(abs(x),shape) + pow(abs(y)/(1.0f - ellip),shape),1.0f/shape);
+    bar_coord = pow(pow(abs(x),shape) + pow(abs(y/(1.0f - ellip)),shape),1.0f/shape);
 }
 
 float Galaxy::diskInten(float factor)
