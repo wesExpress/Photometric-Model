@@ -19,15 +19,17 @@ int main()
     std::ofstream ofs;
     ofs.open("test.txt", std::ofstream::out | std::ofstream::app);
     
-    // object that controls the galaxy parameters
-    // includes various components (see class definition of Galaxy
-    Galaxy galaxy;
-    
     // parameters for the CCD object
     static constexpr float pixscale = 0.228f;
+    static constexpr float exptime = 600.0f;
+    static constexpr float zeropoint = 25.0f;
     static constexpr int nx_ccd = 400;
     static constexpr int ny_ccd = 400;
-    CCD ccd(pixscale,nx_ccd,ny_ccd);
+    CCD ccd(pixscale,exptime,zeropoint,nx_ccd,ny_ccd);
+    
+    // object that controls the galaxy parameters
+    // includes various components (see class definition of Galaxy
+    Galaxy galaxy(ccd);
     
     const float dist_kpc = galaxy.getDistance()*1000.;
     

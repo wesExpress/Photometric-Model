@@ -10,16 +10,18 @@
 #define __Photometric_Model__Disk__
 
 #include <stdio.h>
+#include "CCD.h"
 
 class Disk
 {
 public:
-    Disk(float cen_int_in, float scale_in, float pa_in);
+    Disk(float surf_bright_in, float scale_in, float pa_in, const CCD& ccd);
     float inten(float x, float y, float scale_pix);
     float GetCenInt() const;
     float GetScale() const;
     float GetPa() const;
 private:
+    float surf_bright;
     float cen_int;
     float scale;
     float pa;

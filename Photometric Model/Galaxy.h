@@ -19,7 +19,7 @@
 class Galaxy
 {
 public:
-    Galaxy();
+    Galaxy(const CCD& ccd);
     void genCoordsNew(int x_in, int y_in, const CCD& ccd);
     float diskInten(float factor);
     float barInten(float factor);
@@ -34,11 +34,11 @@ private:
     std::uniform_real_distribution<float> inc_dist;
     
     // distributions for the disk parameters
-    std::uniform_real_distribution<float> cen_int_disk_dist;
+    std::uniform_real_distribution<float> surf_disk_dist;
     std::uniform_real_distribution<float> scale_dist;
     std::uniform_real_distribution<float> pa_dist;
     // distributions for the bar parameters
-    std::uniform_real_distribution<float> cen_int_bar_dist;
+    std::uniform_real_distribution<float> surf_bar_dist;
     std::uniform_real_distribution<float> bar_ellip_dist;
     std::uniform_real_distribution<float> bar_len_dist;
     std::uniform_real_distribution<float> bar_shape_dist;

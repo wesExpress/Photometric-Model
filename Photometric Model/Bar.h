@@ -16,7 +16,7 @@
 class Bar
 {
 public:
-    Bar(float cen_int_in, float pa, float ellip_in, float len_in, float shape_in);
+    Bar(float surf_bright_in, float pa, float ellip_in, float len_in, float shape_in, const CCD& ccd);
     float inten(float r, float pix_factor);
     float GetCenInt() const;
     float GetLen() const;
@@ -25,6 +25,7 @@ public:
     float GetPa() const;
 private:
     float cen_int;
+    float surf_bright;
     float pa;
     float ellip;
     float len;

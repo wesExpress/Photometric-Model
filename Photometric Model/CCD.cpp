@@ -8,9 +8,11 @@
 
 #include "CCD.h"
 
-CCD::CCD(float pix_in, int nx_in, int ny_in)
+CCD::CCD(float pix_in, float expt_in, float zeropt_in, int nx_in, int ny_in)
     :
     pix(pix_in),
+    expt(expt_in),
+    zeropt((zeropt_in)),
     nx(nx_in),
     ny(ny_in)
 {
@@ -29,4 +31,14 @@ int CCD::GetY() const
 float CCD::GetPix() const
 {
     return pix;
+}
+
+float CCD::GetExpt() const
+{
+    return expt;
+}
+
+float CCD::GetZeropt() const
+{
+    return zeropt;
 }

@@ -14,12 +14,17 @@
 class CCD
 {
 public:
-    CCD(float pix_in, int nx_in, int ny_in);
+    CCD() = default;
+    CCD(float pix_in, float expt_in, float zeropt_in, int nx_in, int ny_in);
     int GetX() const;
     int GetY() const;
     float GetPix() const;
+    float GetExpt() const;
+    float GetZeropt() const;
 private:
     float pix;
+    float expt;
+    float zeropt;
     int nx;
     int ny;
 };

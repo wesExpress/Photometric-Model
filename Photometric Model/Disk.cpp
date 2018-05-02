@@ -9,12 +9,13 @@
 #include "Disk.h"
 #include "math.h"
 
-Disk::Disk(float cen_int_in, float scale_in, float pa_in)
+Disk::Disk(float surf_bright_in, float scale_in, float pa_in, const CCD& ccd)
     :
-    cen_int(cen_int_in),
+    surf_bright(surf_bright_in),
     scale(scale_in),
     pa(pa_in)
 {
+    cen_int = ccd.GetExpt()*ccd.GetPix()*ccd.GetPix()*pow(10,(ccd.GetZeropt()-surf_bright)/2.5);
 }
 
 float Disk::inten(float x, float y, float pix_factor)

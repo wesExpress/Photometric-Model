@@ -14,29 +14,31 @@
 
 #define PI 3.1415926535
 
-Galaxy::Galaxy()
+Galaxy::Galaxy(const CCD& ccd)
     :
     // set up random
     rng(rd()),
 
     // parameters for galaxy as a whole
-    distance_dist(60.0f,100.0f),
-    inc_dist(20.0f,80.0f),
+    distance_dist(70.0f,120.0f),
+    inc_dist(20.0f,65.0f),
     distance(distance_dist(rng)),
     inclination(inc_dist(rng)),
 
     // disk distributions and values
-    cen_int_disk_dist(50.0f,100.0f),
+    surf_disk_dist(22.0f,24.0f),
     scale_dist(3.0f,7.0f),
     pa_dist(-90.0f,90.0f),
-    disk(cen_int_disk_dist(rng),scale_dist(rng),pa_dist(rng)),
 
     // bar distributions and values
-    cen_int_bar_dist(75.0f,300.0f),
+    surf_bar_dist(21.0f,22.0f),
     bar_ellip_dist(0.5f,0.7f),
     bar_len_dist(5.0f,6.0f),
     bar_shape_dist(1.8f,2.2f),
-    bar(cen_int_bar_dist(rng),pa_dist(rng),bar_ellip_dist(rng),bar_len_dist(rng),bar_shape_dist(rng))
+
+    // initialize objects
+    disk(surf_disk_dist(rng),scale_dist(rng),pa_dist(rng),ccd),
+    bar(surf_bar_dist(rng),pa_dist(rng),bar_ellip_dist(rng),bar_len_dist(rng),bar_shape_dist(rng),ccd)
 {
     std::cout << "Distance (Mpc) = " << distance << std::endl;
     std::cout << "Inclination = " << inclination << std::endl;
