@@ -6,6 +6,8 @@
 //  Copyright (c) 2018 Wesley Peters. All rights reserved.
 //
 
+#include <iostream>
+
 #include "Bar.h"
 #include "math.h"
 
@@ -30,6 +32,11 @@ float Bar::inten(float r, float pix_factor)
     {
         return 0.0f;
     }
+}
+
+float Bar::GetCenInt() const
+{
+    return cen_int;
 }
 
 float Bar::GetLen() const

@@ -20,21 +20,28 @@ class Galaxy
 {
 public:
     Galaxy();
-    void genCoords(int i, int j, int coord_len, const CCD& ccd);
-    float rotCoordX_disk(float x, float y, int xcen);
-    float rotCoordY_disk(float x, float y, int ycen);
-    float rotCoordX_bar(float x, float y, int xcen);
-    float rotCoordY_bar(float x, float y, int ycen);
-    float inten(float x_in, float y_in, float barCoord_in, float factor);
-    float GetX() const;
-    float GetY() const;
-    float GetBarCoord() const;
-    float GetDistance() const;
-    float GetInclination() const;
+    void genCoordsNew(int x_in, int y_in, const CCD& ccd);
+    float diskInten(float factor);
+    float barInten(float factor);
+    float getDistance();
 private:
     // random initializations
     std::random_device rd;
     std::mt19937 rng;
+    
+    // distributions for parameters
+    std::uniform_real_distribution<float> distance_dist;
+    std::uniform_real_distribution<float> inc_dist;
+    
+    // distributions for the disk parameters
+    std::uniform_real_distribution<float> cen_int_disk_dist;
+    std::uniform_real_distribution<float> scale_dist;
+    std::uniform_real_distribution<float> pa_dist;
+    // distributions for the bar parameters
+    std::uniform_real_distribution<float> cen_int_bar_dist;
+    std::uniform_real_distribution<float> bar_ellip_dist;
+    std::uniform_real_distribution<float> bar_len_dist;
+    std::uniform_real_distribution<float> bar_shape_dist;
     
     // parameters of the galaxy
     float x;
@@ -42,24 +49,13 @@ private:
     float bar_coord;
     float distance;
     float inclination;
-    // distributions for parameters
-    std::uniform_real_distribution<float> distance_dist;
-    std::uniform_real_distribution<float> inc_dist;
     
     // components of the galaxy
     Disk disk;
     Bar bar;
     
-    // distributions for the disk parameters
-    std::uniform_real_distribution<float> cen_int_disk_dist;
-    std::uniform_real_distribution<float> scale_dist;
-    std::uniform_real_distribution<float> pa_dist;
-    std::uniform_real_distribution<float> rmax_dist;
-    // distributions for the bar parameters
-    std::uniform_real_distribution<float> cen_int_bar_dist;
-    std::uniform_real_distribution<float> bar_ellip_dist;
-    std::uniform_real_distribution<float> bar_len_dist;
-    std::uniform_real_distribution<float> bar_shape_dist;
+    // functions
+    float doRadCon(float angle);
 };
 
 #endif /* defined(__Photometric_Model__Galaxy__) */

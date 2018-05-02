@@ -9,12 +9,11 @@
 #include "Disk.h"
 #include "math.h"
 
-Disk::Disk(float cen_int_in, float scale_in, float pa_in, float rmax_in)
+Disk::Disk(float cen_int_in, float scale_in, float pa_in)
     :
     cen_int(cen_int_in),
     scale(scale_in),
-    pa(pa_in),
-    rmax(rmax_in)
+    pa(pa_in)
 {
 }
 
@@ -24,9 +23,14 @@ float Disk::inten(float x, float y, float pix_factor)
     return cen_int*exp(-sqrt(x*x + y*y)/scale_pix);
 }
 
-float Disk::GetRmax() const
+float Disk::GetCenInt() const
 {
-    return rmax;
+    return cen_int;
+}
+
+float Disk::GetScale() const
+{
+    return scale;
 }
 
 float Disk::GetPa() const

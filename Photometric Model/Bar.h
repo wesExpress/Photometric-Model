@@ -18,6 +18,7 @@ class Bar
 public:
     Bar(float cen_int_in, float pa, float ellip_in, float len_in, float shape_in);
     float inten(float r, float pix_factor);
+    float GetCenInt() const;
     float GetLen() const;
     float GetShape() const;
     float GetEllip() const;

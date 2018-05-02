@@ -14,15 +14,15 @@
 class Disk
 {
 public:
-    Disk(float cen_int_in, float scale_in, float pa_in, float rmax_in);
+    Disk(float cen_int_in, float scale_in, float pa_in);
     float inten(float x, float y, float scale_pix);
-    float GetRmax() const;
+    float GetCenInt() const;
+    float GetScale() const;
     float GetPa() const;
 private:
     float cen_int;
     float scale;
     float pa;
-    float rmax;
 };
 
 #endif /* defined(__Photometric_Model__Disk__) */

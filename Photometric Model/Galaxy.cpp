@@ -6,6 +6,8 @@
 //  Copyright (c) 2018 Wesley Peters. All rights reserved.
 //
 
+#include <iostream>
+
 #include "Galaxy.h"
 #include "stdlib.h"
 #include "math.h"
@@ -27,8 +29,7 @@ Galaxy::Galaxy()
     cen_int_disk_dist(50.0f,100.0f),
     scale_dist(3.0f,7.0f),
     pa_dist(-90.0f,90.0f),
-    rmax_dist(25.0f,35.0f),
-    disk(cen_int_disk_dist(rng),scale_dist(rng),pa_dist(rng),rmax_dist(rng)),
+    disk(cen_int_disk_dist(rng),scale_dist(rng),pa_dist(rng)),
 
     // bar distributions and values
     cen_int_bar_dist(75.0f,300.0f),
@@ -37,81 +38,54 @@ Galaxy::Galaxy()
     bar_shape_dist(1.8f,2.2f),
     bar(cen_int_bar_dist(rng),pa_dist(rng),bar_ellip_dist(rng),bar_len_dist(rng),bar_shape_dist(rng))
 {
+    std::cout << "Distance (Mpc) = " << distance << std::endl;
+    std::cout << "Inclination = " << inclination << std::endl;
+    std::cout << std::endl;
+    std::cout << "Disk cen_int = " << disk.GetCenInt() << std::endl;
+    std::cout << "Disk scale (arcsec) = " << disk.GetScale() << std::endl;
+    std::cout << "Disk pa = " << disk.GetPa() << std::endl;
+    std::cout << std::endl;
+    std::cout << "Bar cen_int = " << bar.GetCenInt() << std::endl;
+    std::cout << "Bar ellip = " << bar.GetEllip() << std::endl;
+    std::cout << "Bar len (kpc) = " << bar.GetLen() << std::endl;
+    std::cout << "Bar pa = " << bar.GetPa() << std::endl;
 }
 
-void Galaxy::genCoords(int i, int j, int coord_len, const CCD& ccd)
+void Galaxy::genCoordsNew(int x_in, int y_in, const CCD& ccd)
 {
-    float rmax = disk.GetRmax();
+    const int xcen = ccd.GetX()/2;
+    const int ycen = ccd.GetY()/2;
+    
+    const float inc_rad = doRadCon(inclination);
+    const float pa_rad = doRadCon(disk.GetPa());
+    
     float shape = bar.GetShape();
     float ellip = bar.GetEllip();
     
-    x = -rmax + 2.0f*rmax/coord_len*(float(j) - 1.0f);
-    y = -rmax + 2.0f*rmax/coord_len*(float(i) - 1.0f);
-    
-    // normal cartesian coordinates
-    x = x/distance*206265.0f/ccd.GetPix();
-    y = y/distance*206265.0f/ccd.GetPix();
-    // bar coordinates
+    // cartesian coordinates in galaxy frame from given pixel values
+    x = (float(x_in-xcen)*cos(pa_rad) + float(y_in-ycen)*sin(pa_rad))/cos(inc_rad);
+    y = float(y_in-ycen)*cos(pa_rad) - float(x_in-xcen)*sin(pa_rad);
+
+    // bar coordinate
     bar_coord = pow(pow(abs(x),shape) + pow(abs(y)/(1.0f - ellip),shape),1.0f/shape);
 }
 
-float Galaxy::rotCoordX_disk(float x, float y, int xcen)
+float Galaxy::diskInten(float factor)
 {
-    const float inc_rad = inclination*PI/180.0f;
-    const float pa_rad = disk.GetPa()*PI/180.0f;
-    
-    return x*cos(inc_rad)*cos(pa_rad) + float(xcen) - y*sin(pa_rad);
-}
-float Galaxy::rotCoordY_disk(float x, float y, int ycen)
-{
-    const float inc_rad = inclination*PI/180.0f;
-    const float pa_rad = disk.GetPa()*PI/180.0f;
-    
-    return x*cos(inc_rad)*sin(pa_rad) + y*cos(pa_rad) + float(ycen);
+    return disk.inten(x, y, factor);
 }
 
-float Galaxy::rotCoordX_bar(float x, float y, int xcen)
+float Galaxy::barInten(float factor)
 {
-    const float inc_rad = inclination*PI/180.0f;
-    const float pa_rad = bar.GetPa()*PI/180.0f;
-    
-    return x*cos(inc_rad)*cos(pa_rad) + float(xcen) - y*sin(pa_rad);
+    return bar.inten(bar_coord, factor);
 }
 
-float Galaxy::rotCoordY_bar(float x, float y, int ycen)
-{
-    const float inc_rad = inclination*PI/180.0f;
-    const float pa_rad = bar.GetPa()*PI/180.0f;
-    
-    return x*cos(inc_rad)*sin(pa_rad) + y*cos(pa_rad) + float(ycen);
-}
-
-float Galaxy::inten(float x_in, float y_in, float r_in, float pix_factor)
-{
-    return disk.inten(x_in, y_in, pix_factor) + bar.inten(r_in, pix_factor);
-}
-
-float Galaxy::GetX() const
-{
-    return x;
-}
-
-float Galaxy::GetY() const
-{
-    return y;
-}
-
-float Galaxy::GetBarCoord() const
-{
-    return bar_coord;
-}
-
-float Galaxy::GetDistance() const
+float Galaxy::getDistance()
 {
     return distance;
 }
 
-float Galaxy::GetInclination() const
+float Galaxy::doRadCon(float angle)
 {
-    return inclination;
+    return angle*PI/180.0f;
 }
