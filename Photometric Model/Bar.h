@@ -16,7 +16,8 @@
 class Bar
 {
 public:
-    Bar(float surf_bright_in, float pa, float ellip_in, float len_in, float shape_in, const CCD& ccd);
+    Bar() = default;
+    void makeBar(float surf_bright_in, float pa, float ellip_in, float len_in, float shape_in, const CCD& ccd);
     float inten(float r, float pix_factor);
     float GetCenInt() const;
     float GetLen() const;

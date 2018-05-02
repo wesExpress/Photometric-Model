@@ -9,12 +9,11 @@
 #include "Disk.h"
 #include "math.h"
 
-Disk::Disk(float surf_bright_in, float scale_in, float pa_in, const CCD& ccd)
-    :
-    surf_bright(surf_bright_in),
-    scale(scale_in),
-    pa(pa_in)
+void Disk::makeDisk(float surf_bright_in, float scale_in, float pa_in, const CCD& ccd)
 {
+    surf_bright = surf_bright_in;
+    scale = scale_in;
+    pa = pa_in;
     cen_int = ccd.GetExpt()*ccd.GetPix()*ccd.GetPix()*pow(10,(ccd.GetZeropt()-surf_bright)/2.5);
 }
 

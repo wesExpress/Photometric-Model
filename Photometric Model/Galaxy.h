@@ -54,6 +54,13 @@ private:
     Disk disk;
     Bar bar;
     
+    float surf_disk_try;
+    float surf_bar_try;
+    float scale_try;
+    float len_try;
+    float inc_try;
+    float ellip_try;
+    
     // functions
     float doRadCon(float angle);
 };

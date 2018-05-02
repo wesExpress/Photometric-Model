@@ -23,23 +23,56 @@ Galaxy::Galaxy(const CCD& ccd)
     distance_dist(70.0f,120.0f),
     inc_dist(20.0f,65.0f),
     distance(distance_dist(rng)),
-    inclination(inc_dist(rng)),
 
     // disk distributions and values
-    surf_disk_dist(22.0f,24.0f),
+    surf_disk_dist(22.5f,24.0f),
     scale_dist(3.0f,7.0f),
     pa_dist(-90.0f,90.0f),
 
     // bar distributions and values
-    surf_bar_dist(21.0f,22.0f),
+    surf_bar_dist(22.0f,23.0f),
     bar_ellip_dist(0.5f,0.7f),
     bar_len_dist(5.0f,6.0f),
-    bar_shape_dist(1.8f,2.2f),
-
-    // initialize objects
-    disk(surf_disk_dist(rng),scale_dist(rng),pa_dist(rng),ccd),
-    bar(surf_bar_dist(rng),pa_dist(rng),bar_ellip_dist(rng),bar_len_dist(rng),bar_shape_dist(rng),ccd)
+    bar_shape_dist(1.8f,2.2f)
 {
+    // makes sure the disk is fainter than bar
+    while (true)
+    {
+        surf_disk_try = surf_disk_dist(rng);
+        surf_bar_try = surf_bar_dist(rng);
+        const float cond = surf_disk_try - surf_bar_try;
+        
+        if(cond > 0.0f && cond < 2.0f)
+        {
+            break;
+        }
+    }
+    // makes sure the bar is shorter than the scale length of the disk
+    while (true)
+    {
+        scale_try = scale_dist(rng);
+        len_try = bar_len_dist(rng);
+        if(len_try < scale_try)
+        {
+            break;
+        }
+    }
+    // makes sure the bar is more eccentric than the disk
+    while (true)
+    {
+        inc_try = inc_dist(rng);
+        float disk_e = 1.0f - acos(doRadCon(inc_try));
+        ellip_try = bar_ellip_dist(rng);
+        if(ellip_try > disk_e)
+        {
+            inclination = inc_try;
+            break;
+        }
+    }
+    // initialize objects
+    disk.makeDisk(surf_disk_try,scale_try,pa_dist(rng),ccd);
+    bar.makeBar(surf_bar_try,pa_dist(rng),ellip_try,len_try,bar_shape_dist(rng),ccd);
+    
     std::cout << "Distance (Mpc) = " << distance << std::endl;
     std::cout << "Inclination = " << inclination << std::endl;
     std::cout << std::endl;
