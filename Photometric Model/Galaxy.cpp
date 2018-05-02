@@ -20,19 +20,19 @@ Galaxy::Galaxy(const CCD& ccd)
     rng(rd()),
 
     // parameters for galaxy as a whole
-    distance_dist(70.0f,120.0f),
-    inc_dist(20.0f,65.0f),
+    distance_dist(70.0f,120.0f),        // in Mpc
+    inc_dist(20.0f,65.0f),              // in degrees
     distance(distance_dist(rng)),
 
     // disk distributions and values
-    surf_disk_dist(22.5f,24.0f),
-    scale_dist(3.0f,7.0f),
-    pa_dist(-90.0f,90.0f),
+    surf_disk_dist(22.5f,24.0f),        // in mag/arcsec^2
+    scale_dist(3.0f,7.0f),              // in kpc
+    pa_dist(-90.0f,90.0f),              // in degrees
 
     // bar distributions and values
-    surf_bar_dist(22.0f,23.0f),
+    surf_bar_dist(22.0f,23.0f),         // in mag/arcsec^2
     bar_ellip_dist(0.5f,0.7f),
-    bar_len_dist(5.0f,6.0f),
+    bar_len_dist(2.0f,6.5f),            // in kpc
     bar_shape_dist(1.8f,2.2f)
 {
     // makes sure the disk is fainter than bar
