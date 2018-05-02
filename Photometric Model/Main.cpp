@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "Galaxy.h"
+#include "Noise.h"
 #include "Timer.h"
 
 int main()
@@ -32,6 +33,9 @@ int main()
     
     const float pix_factor = 1.0f/dist_kpc*206265.0f/ccd.GetPix();
     
+    // class of noise for image
+    Noise noise;
+    
     //Timer timer;
     
     // main loop for making image text file
@@ -43,7 +47,7 @@ int main()
             ccd_int = 0.0f;
             galaxy.genCoordsNew(nx, ny, ccd);
             
-            ccd_int = galaxy.diskInten(pix_factor) + galaxy.barInten(pix_factor);
+            ccd_int = galaxy.diskInten(pix_factor) + galaxy.barInten(pix_factor) + noise.GenNoise();
             
             ofs << ccd_int << " ";
         }
