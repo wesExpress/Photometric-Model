@@ -92,17 +92,20 @@ void Galaxy::genCoordsNew(int x_in, int y_in, const CCD& ccd)
     const int ycen = ccd.GetY()/2;
     
     const float inc_rad = doRadCon(inclination);
-    const float pa_rad = doRadCon(disk.GetPa());
+    const float pa_disk_rad = doRadCon(disk.GetPa());
+    const float pa_bar_rad = doRadCon(bar.GetPa() + 90.0f);
     
     float shape = bar.GetShape();
     float ellip = bar.GetEllip();
     
     // cartesian coordinates in galaxy frame from given pixel values
-    x = (float(x_in-xcen)*cos(pa_rad) + float(y_in-ycen)*sin(pa_rad))/cos(inc_rad);
-    y = float(y_in-ycen)*cos(pa_rad) - float(x_in-xcen)*sin(pa_rad);
+    x = (float(x_in-xcen)*cos(pa_disk_rad) + float(y_in-ycen)*sin(pa_disk_rad))/cos(inc_rad);
+    y = float(y_in-ycen)*cos(pa_disk_rad) - float(x_in-xcen)*sin(pa_disk_rad);
 
     // bar coordinate
-    bar_coord = pow(pow(abs(x),shape) + pow(abs(y/(1.0f - ellip)),shape),1.0f/shape);
+    const float x_bar = (float(x_in-xcen)*cos(pa_bar_rad) + float(y_in-ycen)*sin(pa_bar_rad))/cos(inc_rad);
+    const float y_bar = float(y_in-ycen)*cos(pa_bar_rad) - float(x_in-xcen)*sin(pa_bar_rad);
+    bar_coord = pow(pow(abs(x_bar),shape) + pow(abs(y_bar/(1.0f - ellip)),shape),1.0f/shape);
 }
 
 float Galaxy::diskInten(float factor)
