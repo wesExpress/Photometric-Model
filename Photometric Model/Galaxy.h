@@ -19,7 +19,8 @@
 class Galaxy
 {
 public:
-    Galaxy(const CCD& ccd);
+    Galaxy();
+    void setGalaxy(const CCD& ccd);
     void genCoordsNew(int x_in, int y_in, const CCD& ccd);
     float diskInten(float factor);
     float barInten(float factor);

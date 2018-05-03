@@ -14,7 +14,7 @@
 
 #define PI 3.1415926535
 
-Galaxy::Galaxy(const CCD& ccd)
+Galaxy::Galaxy()
     :
     // set up random
     rng(rd()),
@@ -35,6 +35,11 @@ Galaxy::Galaxy(const CCD& ccd)
     bar_len_dist(2.0f,6.5f),            // in kpc
     bar_shape_dist(1.8f,2.2f),
     bar_scale_dist(3.0f,7.0f)           // in kpc
+{
+}
+
+void Galaxy::setGalaxy(const CCD& ccd)
+
 {
     // makes sure the disk is fainter than bar
     while (true)
