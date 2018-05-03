@@ -8,14 +8,13 @@
 
 #include "CCD.h"
 
-CCD::CCD(float pix_in, float expt_in, float zeropt_in, int nx_in, int ny_in)
-    :
-    pix(pix_in),
-    expt(expt_in),
-    zeropt((zeropt_in)),
-    nx(nx_in),
-    ny(ny_in)
+void CCD::setCCD(float pix_in, float expt_in, float zeropt_in, int nx_in, int ny_in)
 {
+    pix = pix_in;
+    expt = expt_in;
+    zeropt = zeropt_in;
+    nx = nx_in;
+    ny = ny_in;
 }
 
 int CCD::GetX() const

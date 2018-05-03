@@ -14,8 +14,7 @@
 class CCD
 {
 public:
-    CCD() = default;
-    CCD(float pix_in, float expt_in, float zeropt_in, int nx_in, int ny_in);
+    void setCCD(float pix_in, float expt_in, float zeropt_in, int nx_in, int ny_in);
     int GetX() const;
     int GetY() const;
     float GetPix() const;

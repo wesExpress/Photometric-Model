@@ -12,38 +12,24 @@
 #include <stdio.h>
 #include <random>
 
+#include "RandomGen.h"
 #include "Disk.h"
 #include "Bar.h"
-#include "CCD.h"
 
 class Galaxy
 {
 public:
-    Galaxy();
-    void setGalaxy(const CCD& ccd);
-    void genCoordsNew(int x_in, int y_in, const CCD& ccd);
+    void setGalaxy();
+    void writeParams();
+    void setDisk(float zeropoint, float exptime, float pix);
+    void setBar(float zeropoint, float exptime, float pix);
+    void genCoordsNew(int x_in, int y_in, int xcen, int ycen);
     float diskInten(float factor);
     float barInten(float factor);
-    float getDistance();
+    float getDistance() const;
+    float getInclination() const;
 private:
-    // random initializations
-    std::random_device rd;
-    std::mt19937 rng;
-    
-    // distributions for parameters
-    std::uniform_real_distribution<float> distance_dist;
-    std::uniform_real_distribution<float> inc_dist;
-    
-    // distributions for the disk parameters
-    std::uniform_real_distribution<float> surf_disk_dist;
-    std::uniform_real_distribution<float> scale_dist;
-    std::uniform_real_distribution<float> pa_dist;
-    // distributions for the bar parameters
-    std::uniform_real_distribution<float> surf_bar_dist;
-    std::uniform_real_distribution<float> bar_ellip_dist;
-    std::uniform_real_distribution<float> bar_len_dist;
-    std::uniform_real_distribution<float> bar_shape_dist;
-    std::uniform_real_distribution<float> bar_scale_dist;
+    RandomGen randGen;
     
     // parameters of the galaxy
     float x;
@@ -58,11 +44,11 @@ private:
     
     float surf_disk_try;
     float surf_bar_try;
-    float scale_try;
-    float len_try;
-    float inc_try;
-    float ellip_try;
+    float disk_scale_try;
     float bar_scale_try;
+    float bar_len_try;
+    float inc_try;
+    float bar_ellip_try;
     
     // functions
     float doRadCon(float angle);

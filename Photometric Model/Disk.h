@@ -15,8 +15,7 @@
 class Disk
 {
 public:
-    Disk() = default;
-    void makeDisk(float surf_bright_in, float scale_in, float pa_in, const CCD& ccd);
+    void makeDisk(float surf_bright_in, float scale_in, float pa_in, float zeropoint, float exptime,float pix);
     float inten(float x, float y, float scale_pix);
     float GetCenInt() const;
     float GetScale() const;

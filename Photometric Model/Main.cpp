@@ -15,6 +15,7 @@
 int main()
 {
     Image image;
+    image.setComponents();
     image.createImage();
     
     return 0;

@@ -14,38 +14,15 @@
 
 #define PI 3.1415926535
 
-Galaxy::Galaxy()
-    :
-    // set up random
-    rng(rd()),
-
-    // parameters for galaxy as a whole
-    distance_dist(70.0f,120.0f),        // in Mpc
-    inc_dist(20.0f,65.0f),              // in degrees
-    distance(distance_dist(rng)),
-
-    // disk distributions and values
-    surf_disk_dist(22.5f,24.0f),        // in mag/arcsec^2
-    scale_dist(3.0f,7.0f),              // in kpc
-    pa_dist(-90.0f,90.0f),              // in degrees
-
-    // bar distributions and values
-    surf_bar_dist(22.0f,23.0f),         // in mag/arcsec^2
-    bar_ellip_dist(0.5f,0.7f),
-    bar_len_dist(2.0f,6.5f),            // in kpc
-    bar_shape_dist(1.8f,2.2f),
-    bar_scale_dist(3.0f,7.0f)           // in kpc
+void Galaxy::setGalaxy()
 {
-}
-
-void Galaxy::setGalaxy(const CCD& ccd)
-
-{
+    distance = randGen.genDistance();
+    
     // makes sure the disk is fainter than bar
     while (true)
     {
-        surf_disk_try = surf_disk_dist(rng);
-        surf_bar_try = surf_bar_dist(rng);
+        surf_disk_try = randGen.genSurfDisk();
+        surf_bar_try = randGen.genSurfBar();
         const float cond = surf_disk_try - surf_bar_try;
         
         if(cond > 0.0f && cond < 1.0f)
@@ -56,10 +33,11 @@ void Galaxy::setGalaxy(const CCD& ccd)
     // makes sure the bar is shorter than the scale length of the disk
     while (true)
     {
-        scale_try = scale_dist(rng);
-        len_try = bar_len_dist(rng);
-        bar_scale_try = bar_scale_dist(rng);
-        if(len_try < scale_try && bar_scale_try < scale_try)
+        disk_scale_try = randGen.genDiskScale();
+        bar_len_try = randGen.genBarLen();
+        bar_scale_try = randGen.genBarScale();
+        
+        if(bar_len_try < disk_scale_try && bar_scale_try < disk_scale_try)
         {
             break;
         }
@@ -67,19 +45,20 @@ void Galaxy::setGalaxy(const CCD& ccd)
     // makes sure the bar is more eccentric than the disk
     while (true)
     {
-        inc_try = inc_dist(rng);
+        inc_try = randGen.genInclination();
         float disk_e = 1.0f - acos(doRadCon(inc_try));
-        ellip_try = bar_ellip_dist(rng);
-        if(ellip_try > disk_e)
+        bar_ellip_try = randGen.genBarEccen();
+        
+        if(bar_ellip_try > disk_e)
         {
             inclination = inc_try;
             break;
         }
     }
-    // initialize objects
-    disk.makeDisk(surf_disk_try,scale_try,pa_dist(rng),ccd);
-    bar.makeBar(surf_bar_try,pa_dist(rng),ellip_try,len_try,bar_shape_dist(rng),bar_scale_try,ccd);
-    
+}
+
+void Galaxy::writeParams()
+{
     std::cout << "Distance (Mpc) = " << distance << std::endl;
     std::cout << "Inclination = " << inclination << std::endl;
     std::cout << std::endl;
@@ -96,11 +75,18 @@ void Galaxy::setGalaxy(const CCD& ccd)
     std::cout << "Bar scale (kpc) = " << bar.GetScale() << std::endl;
 }
 
-void Galaxy::genCoordsNew(int x_in, int y_in, const CCD& ccd)
+void Galaxy::setDisk(float zeropoint, float exptime, float pix)
 {
-    const int xcen = ccd.GetX()/2;
-    const int ycen = ccd.GetY()/2;
-    
+    disk.makeDisk(surf_disk_try,disk_scale_try,randGen.genDiskPA(),zeropoint,exptime,pix);
+}
+
+void Galaxy::setBar(float zeropoint, float exptime, float pix)
+{
+    bar.makeBar(surf_bar_try,randGen.genBarPa(),bar_ellip_try,bar_len_try,randGen.genBarShape(),bar_scale_try,zeropoint,exptime,pix);
+}
+
+void Galaxy::genCoordsNew(int x_in, int y_in, int xcen, int ycen)
+{
     const float inc_rad = doRadCon(inclination);
     const float pa_disk_rad = doRadCon(disk.GetPa());
     const float pa_bar_rad = doRadCon(bar.GetPa() + 90.0f);
@@ -129,9 +115,14 @@ float Galaxy::barInten(float factor)
     //return bar.intenFlat(bar_coord, factor);
 }
 
-float Galaxy::getDistance()
+float Galaxy::getDistance() const
 {
     return distance;
+}
+
+float Galaxy::getInclination() const
+{
+    return inclination;
 }
 
 float Galaxy::doRadCon(float angle)
