@@ -11,8 +11,6 @@
 
 #include <stdio.h>
 
-#include "CCD.h"
-
 class Bar
 {
 public:

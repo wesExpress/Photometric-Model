@@ -10,7 +10,6 @@
 #define __Photometric_Model__Disk__
 
 #include <stdio.h>
-#include "CCD.h"
 
 class Disk
 {

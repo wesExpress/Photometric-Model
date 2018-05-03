@@ -10,7 +10,6 @@
 #define __Photometric_Model__Galaxy__
 
 #include <stdio.h>
-#include <random>
 
 #include "RandomGen.h"
 #include "Disk.h"
