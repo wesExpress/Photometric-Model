@@ -8,17 +8,10 @@
 
 #include "Noise.h"
 
-Noise::Noise()
-    :
-    rng(rd()),
-    skyDist(90.0f,100.0f),
-    readDist(2.0f,4.0f)
-{
-}
-
 float Noise::GenNoise()
 {
-    skyN = skyDist(rng);
-    readN = readDist(rng);
+    skyN = randGen.genSkyNoise();
+    readN = randGen.genReadNoise();
+    
     return skyN + readN;
 }

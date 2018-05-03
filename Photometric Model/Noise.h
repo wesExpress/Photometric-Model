@@ -10,20 +10,14 @@
 #define __Photometric_Model__Noise__
 
 #include <stdio.h>
-#include <random>
+#include "RandomGen.h"
 
 class Noise
 {
 public:
-    Noise();
     float GenNoise();
 private:
-    std::random_device rd;
-    std::mt19937 rng;
-    
-    std::uniform_real_distribution<float> skyDist;
-    std::uniform_real_distribution<float> readDist;
-    
+    RandomGen randGen;
     float skyN;
     float readN;
 };

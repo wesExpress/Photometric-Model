@@ -30,11 +30,16 @@ public:
     float genBarShape();
     float genBarScale();
     float genBarPa();
+    
+    // noise
+    float genSkyNoise();
+    float genReadNoise();
 private:
     // random initializations
     std::random_device rd;
     std::mt19937 rng;
     
+    // galaxy parameters
     std::uniform_real_distribution<float> distance_dist{70.0f,120.0f};
     std::uniform_real_distribution<float> inc_dist{20.0f,65.0f};
     std::uniform_real_distribution<float> surf_disk_dist{22.5f,24.0f};
@@ -45,6 +50,10 @@ private:
     std::uniform_real_distribution<float> bar_len_dist{2.0f,6.5f};
     std::uniform_real_distribution<float> bar_shape_dist{1.8f,2.2f};
     std::uniform_real_distribution<float> bar_scale_dist{3.0f,7.0f};
+    
+    // noise parameters
+    std::uniform_real_distribution<float> skyDist{90.0f,100.0f};
+    std::uniform_real_distribution<float> readDist{3.5f,4.0f};
 };
 
 #endif /* defined(__Photometric_Model__RandomGen__) */

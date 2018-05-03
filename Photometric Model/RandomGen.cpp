@@ -69,3 +69,13 @@ float RandomGen::genBarPa()
 {
     return pa_dist(rng);
 }
+
+float RandomGen::genSkyNoise()
+{
+    return skyDist(rng);
+}
+
+float RandomGen::genReadNoise()
+{
+    return readDist(rng);
+}
