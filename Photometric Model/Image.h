@@ -26,15 +26,6 @@ private:
     Noise noise;
     CCD ccd;
     
-    // parameters for the CCD object
-    static constexpr float pixscale = 0.228f;
-    static constexpr float exptime = 600.0f;
-    static constexpr float zeropoint = 25.0f;
-    static constexpr int nx_ccd = 400;
-    static constexpr int ny_ccd = 400;
-    static constexpr int xcen = nx_ccd/2;
-    static constexpr int ycen = ny_ccd/2;
-    
     // various parameters
     float dist_kpc;
     float pix_factor;

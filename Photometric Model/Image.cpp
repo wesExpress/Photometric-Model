@@ -13,14 +13,13 @@
 
 void Image::setComponents()
 {
-    ccd.setCCD(pixscale, exptime, zeropoint, nx_ccd, ny_ccd);
     galaxy.setGalaxy();
     
     dist_kpc = galaxy.getDistance()*1000.;
-    pix_factor = 1.0f/dist_kpc*206265.0f/pixscale;
+    pix_factor = 1.0f/dist_kpc*206265.0f/ccd.GetPix();
 
-    galaxy.setDisk(zeropoint, exptime, pixscale);
-    galaxy.setBar(zeropoint, exptime, pixscale);
+    galaxy.setDisk(ccd.GetZeropt(),ccd.GetExpt(),ccd.GetPix());
+    galaxy.setBar(ccd.GetZeropt(),ccd.GetExpt(),ccd.GetPix());
     
     galaxy.writeParams();
 }
@@ -38,7 +37,7 @@ void Image::createImage()
         for(int nx=0;nx<ccd.GetX();nx++)
         {
             ccd_int = 0.0f;
-            galaxy.genCoordsNew(nx, ny, xcen, ycen);
+            galaxy.genCoordsNew(nx, ny, ccd.GetXcen(), ccd.GetYcen());
             
             ccd_int = galaxy.diskInten(pix_factor) + galaxy.barInten(pix_factor) + noise.GenNoise();
             
