@@ -8,15 +8,6 @@
 
 #include "CCD.h"
 
-void CCD::setCCD(float pix_in, float expt_in, float zeropt_in, int nx_in, int ny_in)
-{
-    pix = pix_in;
-    expt = expt_in;
-    zeropt = zeropt_in;
-    nx = nx_in;
-    ny = ny_in;
-}
-
 int CCD::GetX() const
 {
     return nx;
@@ -27,17 +18,28 @@ int CCD::GetY() const
     return ny;
 }
 
+int CCD::GetXcen() const
+{
+    return xcen;
+}
+
+int CCD::GetYcen() const
+{
+    return ycen;
+}
+
 float CCD::GetPix() const
 {
-    return pix;
+    return pixscale;
 }
 
 float CCD::GetExpt() const
 {
-    return expt;
+    return exptime;
 }
 
 float CCD::GetZeropt() const
 {
-    return zeropt;
+    return zeropoint;
 }
+

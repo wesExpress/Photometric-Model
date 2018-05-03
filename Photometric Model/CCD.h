@@ -14,18 +14,21 @@
 class CCD
 {
 public:
-    void setCCD(float pix_in, float expt_in, float zeropt_in, int nx_in, int ny_in);
     int GetX() const;
     int GetY() const;
+    int GetXcen() const;
+    int GetYcen() const;
     float GetPix() const;
     float GetExpt() const;
     float GetZeropt() const;
 private:
-    float pix;
-    float expt;
-    float zeropt;
-    int nx;
-    int ny;
+    static constexpr float pixscale = 0.228f;
+    static constexpr float exptime = 600.0f;
+    static constexpr float zeropoint = 25.0f;
+    static constexpr int nx = 400;
+    static constexpr int ny = 400;
+    static constexpr int xcen = nx/2;
+    static constexpr int ycen = ny/2;
 };
 
 #endif /* defined(__Photometric_Model__CCD__) */
