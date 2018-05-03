@@ -6,6 +6,20 @@ In order to mitigate these issues, this code generates mock galaxy images in ord
 
 Currently, this code generates a galaxy with a distance in Mpc and inclination in degrees. It then adds a disk and bar component, both with various parameters. The disk and bar are coupled so that the parameters are always physically meaningful. The code is open so that more components can be added later (i.e. spiral arms). Next, read and sky noise are added to mimic observing. Again, the code is open to future noise additions. Finally, we run through a mock CCD of specified pixel size and generate the on-sky intensity profile of the galaxy.
 
+Inputs
+------
+Code takes a file called "inputs.txt" currently that contains the min and max values for the parameter distributions. For some reason, need to leave first line blank or have '//', since std::getline skips this line for some reason. The order of parameters is currently:
++ distance (Mpc)
++ inclination (degrees)
++ disk central surface brightness (mag/arcsec^2)
++ disk scale length (kpc)
++ disk position angle (degrees)
++ bar central surface brightness (mag/arcsec^2)
++ bar eccentricity
++ bar length (kpc)
++ bar shape (*c* parameter in Freeman bar profile)
++ bar scale length (*r_s* parameter in Flat bar profile)
+
 Disk
 ----
 + central surface brightness --> turned into ADU counts
@@ -43,4 +57,3 @@ TO BE ADDED IN FUTURE
 + Seeing effects --> convolve image with either Gaussian or Moffat profile
 + 'Patchy' Disk 
 + Spiral arms --> would be nice to add spiral arms into the image
-+ Ability for code to read in the limits for parameter creation. Currently are hard coded in
