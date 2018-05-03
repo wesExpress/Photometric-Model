@@ -43,9 +43,6 @@ void Image::createImage()
             
             ofs << ccd_int << " ";
         }
-        
-        // write out line to text file
-        //ofs << dum;
         ofs << std::endl;
     }
     

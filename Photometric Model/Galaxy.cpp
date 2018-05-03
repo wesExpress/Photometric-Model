@@ -15,6 +15,8 @@
 
 void Galaxy::setGalaxy()
 {
+    randGen.readInputs();
+    
     distance = randGen.genDistance();
     
     // makes sure the disk is fainter than bar
@@ -63,7 +65,7 @@ void Galaxy::writeParams()
     std::cout << std::endl;
     std::cout << "Disk surf bright = " << surf_disk_try << std::endl;
     std::cout << "Disk cen_int = " << disk.GetCenInt() << std::endl;
-    std::cout << "Disk scale (arcsec) = " << disk.GetScale() << std::endl;
+    std::cout << "Disk scale (kpc) = " << disk.GetScale() << std::endl;
     std::cout << "Disk pa = " << disk.GetPa() << std::endl;
     std::cout << std::endl;
     std::cout << "Bar surf bright = " << surf_bar_try << std::endl;
