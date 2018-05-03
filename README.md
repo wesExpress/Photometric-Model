@@ -30,13 +30,15 @@ Noise
 + sky
 + read
 
-------------------COUPLING OF PARAMETERS-------------------
+COUPLING OF PARAMETERS
+----------------------
 
 + Disk is forced to be fainter than the bar, with a maximum differce of 1 mag/arcsec^2
 + Bar length is forced to be shorter than the disk scale length
 + Bar ellipticity is forced to be larger than the disk ellipticity (disk inclination)
 
-------------------TO BE ADDED IN FUTURE--------------------
+TO BE ADDED IN FUTURE
+---------------------
 
 + Seeing effects --> convolve image with either Gaussian or Moffat profile
 + 'Patchy' Disk 
