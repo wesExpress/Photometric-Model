@@ -11,7 +11,7 @@
 #include "Bar.h"
 #include "math.h"
 
-void Bar::makeBar(float surf_bright_in, float pa_in, float ellip_in, float len_in, float shape_in, float bar_scale_in, const CCD& ccd)
+void Bar::makeBar(float surf_bright_in, float pa_in, float ellip_in, float len_in, float shape_in, float scale_in, const CCD& ccd)
 {
     surf_bright = surf_bright_in;
     pa=pa_in;
@@ -19,7 +19,7 @@ void Bar::makeBar(float surf_bright_in, float pa_in, float ellip_in, float len_i
     len=len_in;
     shape=shape_in;
     cen_int = ccd.GetExpt()*ccd.GetPix()*ccd.GetPix()*pow(10,(ccd.GetZeropt()-surf_bright)/2.5);
-    bar_scale = bar_scale_in;
+    scale = scale_in;
 }
 
 float Bar::intenFreeman(float r, float pix_factor)
@@ -38,7 +38,7 @@ float Bar::intenFreeman(float r, float pix_factor)
 float Bar::intenFlat(float r, float pix_factor)
 {
     const float len_pix = len*pix_factor;
-    return cen_int*(1.0f/(1.0f+exp((r-len_pix)/bar_scale)));
+    return cen_int*(1.0f/(1.0f+exp((r-len_pix)/scale)));
 }
 
 float Bar::GetCenInt() const
@@ -66,7 +66,7 @@ float Bar::GetPa() const
     return pa;
 }
 
-float Bar::GetBarScale() const
+float Bar::GetScale() const
 {
-    return bar_scale;
+    return scale;
 }

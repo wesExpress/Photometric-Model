@@ -88,7 +88,7 @@ Galaxy::Galaxy(const CCD& ccd)
     std::cout << "Bar ellip = " << bar.GetEllip() << std::endl;
     std::cout << "Bar len (kpc) = " << bar.GetLen() << std::endl;
     std::cout << "Bar pa = " << bar.GetPa() << std::endl;
-    std::cout << "Bar scale (kpc) = " << bar.GetBarScale() << std::endl;
+    std::cout << "Bar scale (kpc) = " << bar.GetScale() << std::endl;
 }
 
 void Galaxy::genCoordsNew(int x_in, int y_in, const CCD& ccd)
