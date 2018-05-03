@@ -5,6 +5,7 @@
 //  Created by Wesley Peters on 5/1/18.
 //  Copyright (c) 2018 Wesley Peters. All rights reserved.
 //
+//  Now on GitHub!
 
 #include <fstream>
 #include <iostream>
