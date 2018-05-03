@@ -18,9 +18,6 @@ void Image::setComponents()
     
     dist_kpc = galaxy.getDistance()*1000.;
     pix_factor = 1.0f/dist_kpc*206265.0f/pixscale;
-    
-    std::cout << dist_kpc << std::endl;
-    std::cout << pix_factor << std::endl;
 
     galaxy.setDisk(zeropoint, exptime, pixscale);
     galaxy.setBar(zeropoint, exptime, pixscale);
