@@ -42,6 +42,7 @@ private:
     std::uniform_real_distribution<float> bar_ellip_dist;
     std::uniform_real_distribution<float> bar_len_dist;
     std::uniform_real_distribution<float> bar_shape_dist;
+    std::uniform_real_distribution<float> bar_scale_dist;
     
     // parameters of the galaxy
     float x;
@@ -60,6 +61,7 @@ private:
     float len_try;
     float inc_try;
     float ellip_try;
+    float bar_scale_try;
     
     // functions
     float doRadCon(float angle);

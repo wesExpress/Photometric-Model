@@ -33,7 +33,8 @@ Galaxy::Galaxy(const CCD& ccd)
     surf_bar_dist(22.0f,23.0f),         // in mag/arcsec^2
     bar_ellip_dist(0.5f,0.7f),
     bar_len_dist(2.0f,6.5f),            // in kpc
-    bar_shape_dist(1.8f,2.2f)
+    bar_shape_dist(1.8f,2.2f),
+    bar_scale_dist(3.0f,7.0f)           // in kpc
 {
     // makes sure the disk is fainter than bar
     while (true)
@@ -42,7 +43,7 @@ Galaxy::Galaxy(const CCD& ccd)
         surf_bar_try = surf_bar_dist(rng);
         const float cond = surf_disk_try - surf_bar_try;
         
-        if(cond > 0.0f && cond < 2.0f)
+        if(cond > 0.0f && cond < 1.0f)
         {
             break;
         }
@@ -52,7 +53,8 @@ Galaxy::Galaxy(const CCD& ccd)
     {
         scale_try = scale_dist(rng);
         len_try = bar_len_dist(rng);
-        if(len_try < scale_try)
+        bar_scale_try = bar_scale_dist(rng);
+        if(len_try < scale_try && bar_scale_try < scale_try)
         {
             break;
         }
@@ -71,19 +73,22 @@ Galaxy::Galaxy(const CCD& ccd)
     }
     // initialize objects
     disk.makeDisk(surf_disk_try,scale_try,pa_dist(rng),ccd);
-    bar.makeBar(surf_bar_try,pa_dist(rng),ellip_try,len_try,bar_shape_dist(rng),ccd);
+    bar.makeBar(surf_bar_try,pa_dist(rng),ellip_try,len_try,bar_shape_dist(rng),bar_scale_try,ccd);
     
     std::cout << "Distance (Mpc) = " << distance << std::endl;
     std::cout << "Inclination = " << inclination << std::endl;
     std::cout << std::endl;
+    std::cout << "Disk surf bright = " << surf_disk_try << std::endl;
     std::cout << "Disk cen_int = " << disk.GetCenInt() << std::endl;
     std::cout << "Disk scale (arcsec) = " << disk.GetScale() << std::endl;
     std::cout << "Disk pa = " << disk.GetPa() << std::endl;
     std::cout << std::endl;
+    std::cout << "Bar surf bright = " << surf_bar_try << std::endl;
     std::cout << "Bar cen_int = " << bar.GetCenInt() << std::endl;
     std::cout << "Bar ellip = " << bar.GetEllip() << std::endl;
     std::cout << "Bar len (kpc) = " << bar.GetLen() << std::endl;
     std::cout << "Bar pa = " << bar.GetPa() << std::endl;
+    std::cout << "Bar scale (kpc) = " << bar.GetBarScale() << std::endl;
 }
 
 void Galaxy::genCoordsNew(int x_in, int y_in, const CCD& ccd)
@@ -115,7 +120,8 @@ float Galaxy::diskInten(float factor)
 
 float Galaxy::barInten(float factor)
 {
-    return bar.inten(bar_coord, factor);
+    return bar.intenFreeman(bar_coord, factor);
+    //return bar.intenFlat(bar_coord, factor);
 }
 
 float Galaxy::getDistance()
