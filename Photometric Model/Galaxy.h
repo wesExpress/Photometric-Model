@@ -43,14 +43,15 @@ private:
     Disk disk;
     Bar bar;
     
-    float surf_disk_try;
-    float surf_bar_try;
-    float disk_scale_try;
-    float bar_scale_try;
-    float bar_len_try;
-    float inc_try;
-    float bar_ellip_try;
+    float surfDiskTry;
+    float surfBarTry;
+    float diskScaleTry;
+    float barScaleTry;
+    float barLenTry;
+    float incTry;
+    float barEllipTry;
     
+    std::string barInputString = "bar_profile";
     float barFerrer = 1.0f;
     float barFlat = 2.0f;
     float barInput;

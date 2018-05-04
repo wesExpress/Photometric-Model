@@ -17,16 +17,16 @@ void Galaxy::setGalaxy()
 {
     io.ReadInputs();
     
-    barInput = io.GetValue("bar_profile", 0);
+    barInput = io.GetValue(barInputString, 0);
     
     distance = randGen.genDistance(io);
     
     // makes sure the disk is fainter than bar
     while (true)
     {
-        surf_disk_try = randGen.genSurfDisk(io);
-        surf_bar_try = randGen.genSurfBar(io);
-        const float cond = surf_disk_try - surf_bar_try;
+        surfDiskTry = randGen.genSurfDisk(io);
+        surfBarTry = randGen.genSurfBar(io);
+        const float cond = surfDiskTry - surfBarTry;
         
         if(cond > 0.0f && cond < 1.0f)
         {
@@ -36,14 +36,14 @@ void Galaxy::setGalaxy()
     // makes sure the bar is shorter than the scale length of the disk
     while (true)
     {
-        disk_scale_try = randGen.genDiskScale(io);
-        bar_len_try = randGen.genBarLen(io);
+        diskScaleTry = randGen.genDiskScale(io);
+        barLenTry = randGen.genBarLen(io);
         if(barInput == barFlat)
         {
-            bar_scale_try = randGen.genBarScale(io);
+            barScaleTry = randGen.genBarScale(io);
         }
         
-        if(bar_len_try < disk_scale_try)
+        if(barLenTry < diskScaleTry)
         {
             break;
         }
@@ -51,13 +51,13 @@ void Galaxy::setGalaxy()
     // makes sure the bar is more eccentric than the disk
     while (true)
     {
-        inc_try = randGen.genInclination(io);
-        float disk_e = 1.0f - acos(doRadCon(inc_try));
-        bar_ellip_try = randGen.genBarEccen(io);
+        incTry = randGen.genInclination(io);
+        float disk_e = 1.0f - acos(doRadCon(incTry));
+        barEllipTry = randGen.genBarEccen(io);
         
-        if(bar_ellip_try > disk_e)
+        if(barEllipTry > disk_e)
         {
-            inclination = inc_try;
+            inclination = incTry;
             break;
         }
     }
@@ -68,12 +68,12 @@ void Galaxy::writeParams()
     std::cout << "Distance (Mpc) = " << distance << std::endl;
     std::cout << "Inclination = " << inclination << std::endl;
     std::cout << std::endl;
-    std::cout << "Disk surf bright = " << surf_disk_try << std::endl;
+    std::cout << "Disk surf bright = " << surfDiskTry << std::endl;
     std::cout << "Disk cen_int = " << disk.GetCenInt() << std::endl;
     std::cout << "Disk scale (kpc) = " << disk.GetScale() << std::endl;
     std::cout << "Disk pa = " << disk.GetPa() << std::endl;
     std::cout << std::endl;
-    std::cout << "Bar surf bright = " << surf_bar_try << std::endl;
+    std::cout << "Bar surf bright = " << surfBarTry << std::endl;
     std::cout << "Bar cen_int = " << bar.GetCenInt() << std::endl;
     std::cout << "Bar ellip = " << bar.GetEllip() << std::endl;
     std::cout << "Bar len (kpc) = " << bar.GetLen() << std::endl;
@@ -86,18 +86,18 @@ void Galaxy::writeParams()
 
 void Galaxy::setDisk(float zeropoint, float exptime, float pix)
 {
-    disk.makeDisk(surf_disk_try,disk_scale_try,randGen.genDiskPA(io),zeropoint,exptime,pix);
+    disk.makeDisk(surfDiskTry,diskScaleTry,randGen.genDiskPA(io),zeropoint,exptime,pix);
 }
 
 void Galaxy::setBar(float zeropoint, float exptime, float pix)
 {
     if(barInput == barFerrer)
     {
-        bar.makeBarFerrer(surf_bar_try,randGen.genBarPa(io),bar_ellip_try,bar_len_try,randGen.genBarShape(io),zeropoint,exptime,pix);
+        bar.makeBarFerrer(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),zeropoint,exptime,pix);
     }
     else if(barInput == barFlat)
     {
-        bar.makeBarFlat(surf_bar_try,randGen.genBarPa(io),bar_ellip_try,bar_len_try,randGen.genBarShape(io),bar_scale_try,zeropoint,exptime,pix);
+        bar.makeBarFlat(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),barScaleTry,zeropoint,exptime,pix);
     }
     else
     {
