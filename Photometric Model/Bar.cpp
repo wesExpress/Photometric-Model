@@ -11,13 +11,22 @@
 #include "Bar.h"
 #include "math.h"
 
-void Bar::makeBar(float surf_bright_in, float pa_in, float ellip_in, float len_in, float shape_in, float scale_in, float zeropoint, float exptime, float pix)
+void Bar::makeBarFerrer(float surf_bright_in, float pa_in, float ellip_in, float len_in, float shape_in, float zeropoint, float exptime, float pix)
 {
     surf_bright = surf_bright_in;
     pa=pa_in;
     ellip=ellip_in;
     len=len_in;
     shape=shape_in;
+    cen_int = exptime*pix*pix*pow(10.0f,(zeropoint-surf_bright)/2.5);
+}
+
+void Bar::makeBarFlat(float surf_bright_in, float pa_in, float ellip_in, float len_in, float scale_in, float zeropoint, float exptime, float pix)
+{
+    surf_bright = surf_bright_in;
+    pa=pa_in;
+    ellip=ellip_in;
+    len=len_in;
     cen_int = exptime*pix*pix*pow(10.0f,(zeropoint-surf_bright)/2.5);
     scale = scale_in;
 }
