@@ -15,8 +15,8 @@ std::string UserInput::GetInputFile()
         std::cout << "Enter file name : " << std::endl;
         std::string test;
         getline(std::cin, test);
-        std::ifstream fileCheck(test);
         
+        std::ifstream fileCheck(test);
         if(fileCheck)
         {
             infile = test;
@@ -38,7 +38,8 @@ void UserInput::ReadInputs()
     int i = 0;
     while(std::getline(infile, s))
     {
-        infile >> inputs[i][0] >> inputs[i][1];
+        infile >> input_names[i] >> input_vals[i][0] >> input_vals[i][1];
+        //std::cout << input_names[i] << std::endl;
         i++;
     }
     infile.close();
@@ -46,5 +47,5 @@ void UserInput::ReadInputs()
 
 float UserInput::GetValue(int row, int col) const
 {
-    return inputs[row][col];
+    return input_vals[row][col];
 }

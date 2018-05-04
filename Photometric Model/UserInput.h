@@ -25,7 +25,8 @@ private:
     static constexpr int numRows = 10;
     static constexpr int numCols = 2;
     
-    float inputs[numRows][numCols];
+    float input_vals[numRows][numCols];
+    std::string input_names[numRows];
     
     std::string infile;
 };
