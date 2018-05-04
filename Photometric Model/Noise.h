@@ -18,6 +18,7 @@ public:
     float GenNoise();
 private:
     RandomGen randGen;
+    
     float skyN;
     float readN;
 };

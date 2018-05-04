@@ -15,82 +15,69 @@ RandomGen::RandomGen()
 {
 }
 
-void RandomGen::readInputs()
+float RandomGen::genDistance(const UserInput& io)
 {
-    std::ifstream infile(io.GetInputFile());
-    std::string s;
-    int i = 0;
-    while(std::getline(infile, s))
-    {
-        infile >> inputs[i][0] >> inputs[i][1];
-        i++;
-    }
-    infile.close();
-}
-
-float RandomGen::genDistance()
-{
-    std::uniform_real_distribution<float> distance_dist{inputs[0][0],inputs[0][1]};
+    std::uniform_real_distribution<float> distance_dist{io.GetValue(0,0),io.GetValue(0,1)};
     return distance_dist(rng);
 }
 
-float RandomGen::genInclination()
+float RandomGen::genInclination(const UserInput& io)
 {
-    std::uniform_real_distribution<float> inc_dist{inputs[1][0],inputs[1][1]};
+    std::uniform_real_distribution<float> inc_dist{io.GetValue(1,0),io.GetValue(1,1)};
     return inc_dist(rng);
 }
 
-float RandomGen::genSurfDisk()
+float RandomGen::genSurfDisk(const UserInput& io)
 {
-    std::uniform_real_distribution<float> surf_disk_dist{inputs[2][0],inputs[2][1]};
+    std::uniform_real_distribution<float> surf_disk_dist{io.GetValue(2,0),io.GetValue(2,1)};
     return surf_disk_dist(rng);
 }
 
-float RandomGen::genDiskScale()
+float RandomGen::genDiskScale(const UserInput& io)
 {
-    std::uniform_real_distribution<float> disk_scale_dist{inputs[3][0],inputs[3][1]};
+    std::uniform_real_distribution<float> disk_scale_dist{io.GetValue(3,0),io.GetValue(3,1)};
     return disk_scale_dist(rng);
 }
 
-float RandomGen::genDiskPA()
+float RandomGen::genDiskPA(const UserInput& io)
 {
-    std::uniform_real_distribution<float> pa_dist{inputs[4][0],inputs[4][1]};
+    std::uniform_real_distribution<float> pa_dist{io.GetValue(4,0),io.GetValue(4,1)};
     return pa_dist(rng);
 }
 
-float RandomGen::genSurfBar()
+float RandomGen::genSurfBar(const UserInput& io)
 {
-    std::uniform_real_distribution<float> surf_bar_dist{inputs[5][0],inputs[5][1]};
+    std::uniform_real_distribution<float> surf_bar_dist{io.GetValue(5,0),io.GetValue(5,1)};
     return surf_bar_dist(rng);
 }
 
-float RandomGen::genBarEccen()
+float RandomGen::genBarEccen(const UserInput& io)
 {
-    std::uniform_real_distribution<float> bar_ellip_dist{inputs[6][0],inputs[6][1]};
+    std::uniform_real_distribution<float> bar_ellip_dist{io.GetValue(6,0),io.GetValue(6,1)};
     return bar_ellip_dist(rng);
 }
 
-float RandomGen::genBarLen()
+float RandomGen::genBarLen(const UserInput& io)
 {
-    std::uniform_real_distribution<float> bar_len_dist{inputs[7][0],inputs[7][1]};
+    std::uniform_real_distribution<float> bar_len_dist{io.GetValue(7,0),io.GetValue(7,1)};
     return bar_len_dist(rng);
 }
 
-float RandomGen::genBarShape()
+float RandomGen::genBarShape(const UserInput& io)
 {
-    std::uniform_real_distribution<float> bar_shape_dist{inputs[8][0],inputs[8][1]};
+    std::uniform_real_distribution<float> bar_shape_dist{io.GetValue(8,0),io.GetValue(8,1)};
     return bar_shape_dist(rng);
 }
 
-float RandomGen::genBarScale()
+float RandomGen::genBarScale(const UserInput& io)
 {
-    std::uniform_real_distribution<float> bar_scale_dist{inputs[9][0],inputs[9][1]};
+    std::uniform_real_distribution<float> bar_scale_dist{io.GetValue(9,0),io.GetValue(9,1)};
     return bar_scale_dist(rng);
 }
 
-float RandomGen::genBarPa()
+float RandomGen::genBarPa(const UserInput& io)
 {
-    std::uniform_real_distribution<float> pa_dist{inputs[4][0],inputs[4][1]};
+    std::uniform_real_distribution<float> pa_dist{io.GetValue(4,0),io.GetValue(4,1)};
     return pa_dist(rng);
 }
 

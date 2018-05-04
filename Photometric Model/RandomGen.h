@@ -10,6 +10,7 @@
 #define __Photometric_Model__RandomGen__
 
 #include <stdio.h>
+#include <string>
 #include <random>
 #include <fstream>
 
@@ -19,21 +20,21 @@ class RandomGen
 {
 public:
     RandomGen();
-    void readInputs();
+    
     // galaxy wide parameters
-    float genDistance();
-    float genInclination();
+    float genDistance(const UserInput& io);
+    float genInclination(const UserInput&  io);
     // disk parameters
-    float genSurfDisk();
-    float genDiskScale();
-    float genDiskPA();
+    float genSurfDisk(const UserInput& io);
+    float genDiskScale(const UserInput& io);
+    float genDiskPA(const UserInput& io);
     // bar parameters
-    float genSurfBar();
-    float genBarEccen();
-    float genBarLen();
-    float genBarShape();
-    float genBarScale();
-    float genBarPa();
+    float genSurfBar(const UserInput& io);
+    float genBarEccen(const UserInput& io);
+    float genBarLen(const UserInput& io);
+    float genBarShape(const UserInput& io);
+    float genBarScale(const UserInput& io);
+    float genBarPa(const UserInput& io);
     
     // noise
     float genSkyNoise();
@@ -42,13 +43,6 @@ private:
     // random initializations
     std::random_device rd;
     std::mt19937 rng;
-    
-    static constexpr int numRows = 10;
-    static constexpr int numCols = 2;
-    
-    float inputs[numRows][numCols];
-    
-    UserInput io;
 };
 
 #endif /* defined(__Photometric_Model__RandomGen__) */
