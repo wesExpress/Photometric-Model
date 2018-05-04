@@ -8,7 +8,7 @@ Currently, this code generates a galaxy with a distance in Mpc and inclination i
 
 Inputs
 ------
-Code takes a file called "inputs.txt" currently that contains the min (second column) and max (third column) values for the parameter (first column) distributions. For some reason, need to leave first line blank or have '//', since std::getline skips this line for some reason. The parameters don't need to be in any order, as the code searches for each parameter needed based on a string, the first column of the input file. For disk_profile and bar_profile, only the second column needs a number, the third can be anything. For disk_profile, 1 = sersic profile. For bar_profile, 1 = Ferrer and 2 = Flat.
+Code takes a file called "inputs.txt" currently that contains the min (second column) and max (third column) values for the parameter (first column) distributions. Need to leave first line blank or have '//', since std::getline skips this line for some reason. The parameters don't need to be in any order, as the code searches for each parameter needed based on a string, the first column of the input file. For disk_profile and bar_profile, only the second column needs a number, the third can be anything. For disk_profile, 1 = sersic profile. For bar_profile, 1 = Ferrer and 2 = Flat.
 
 The current accepted parameters are (with the required string name):
 + disk_profile
