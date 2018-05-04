@@ -20,9 +20,9 @@ class UserInput
 public:
     std::string GetInputFile();
     void ReadInputs();
-    float GetValue(int row, int col) const;
+    float GetValue(std::string name, int col) const;
 private:
-    static constexpr int numRows = 10;
+    static constexpr int numRows = 11;
     static constexpr int numCols = 2;
     
     float input_vals[numRows][numCols];
