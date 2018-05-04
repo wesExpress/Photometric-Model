@@ -39,6 +39,13 @@ Bar
 
 Currently has the option of a Freeman or Flat profile.
 
+CCD
+---
++ nx --> number of x pixels
++ ny --> number of y pixels
++ pixscale --> plate scale of CCD (arcsec/pixel)
++ exptime --> exposure time of image in seconds
+
 Noise
 -----
 + sky
