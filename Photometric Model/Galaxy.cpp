@@ -38,25 +38,13 @@ void Galaxy::setGalaxy()
     {
         disk_scale_try = randGen.genDiskScale(io);
         bar_len_try = randGen.genBarLen(io);
-        
         if(barInput == barFlat)
         {
             bar_scale_try = randGen.genBarScale(io);
-            if(bar_len_try < disk_scale_try && bar_scale_try < disk_scale_try)
-            {
-                break;
-            }
         }
-        else if(barInput == barFerrer)
+        
+        if(bar_len_try < disk_scale_try)
         {
-            if(bar_len_try < disk_scale_try)
-            {
-                break;
-            }
-        }
-        else
-        {
-            std::cout << "Error: Wrong input for bar profile." << std::endl;
             break;
         }
     }
@@ -109,7 +97,7 @@ void Galaxy::setBar(float zeropoint, float exptime, float pix)
     }
     else if(barInput == barFlat)
     {
-        bar.makeBarFlat(surf_bar_try,randGen.genBarPa(io),bar_ellip_try,bar_len_try,bar_scale_try,zeropoint,exptime,pix);
+        bar.makeBarFlat(surf_bar_try,randGen.genBarPa(io),bar_ellip_try,bar_len_try,randGen.genBarShape(io),bar_scale_try,zeropoint,exptime,pix);
     }
     else
     {
