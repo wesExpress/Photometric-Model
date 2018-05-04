@@ -15,15 +15,15 @@
 
 void Galaxy::setGalaxy()
 {
-    randGen.readInputs();
+    io.ReadInputs();
     
-    distance = randGen.genDistance();
+    distance = randGen.genDistance(io);
     
     // makes sure the disk is fainter than bar
     while (true)
     {
-        surf_disk_try = randGen.genSurfDisk();
-        surf_bar_try = randGen.genSurfBar();
+        surf_disk_try = randGen.genSurfDisk(io);
+        surf_bar_try = randGen.genSurfBar(io);
         const float cond = surf_disk_try - surf_bar_try;
         
         if(cond > 0.0f && cond < 1.0f)
@@ -34,9 +34,9 @@ void Galaxy::setGalaxy()
     // makes sure the bar is shorter than the scale length of the disk
     while (true)
     {
-        disk_scale_try = randGen.genDiskScale();
-        bar_len_try = randGen.genBarLen();
-        bar_scale_try = randGen.genBarScale();
+        disk_scale_try = randGen.genDiskScale(io);
+        bar_len_try = randGen.genBarLen(io);
+        bar_scale_try = randGen.genBarScale(io);
         
         if(bar_len_try < disk_scale_try && bar_scale_try < disk_scale_try)
         {
@@ -46,9 +46,9 @@ void Galaxy::setGalaxy()
     // makes sure the bar is more eccentric than the disk
     while (true)
     {
-        inc_try = randGen.genInclination();
+        inc_try = randGen.genInclination(io);
         float disk_e = 1.0f - acos(doRadCon(inc_try));
-        bar_ellip_try = randGen.genBarEccen();
+        bar_ellip_try = randGen.genBarEccen(io);
         
         if(bar_ellip_try > disk_e)
         {
@@ -78,12 +78,12 @@ void Galaxy::writeParams()
 
 void Galaxy::setDisk(float zeropoint, float exptime, float pix)
 {
-    disk.makeDisk(surf_disk_try,disk_scale_try,randGen.genDiskPA(),zeropoint,exptime,pix);
+    disk.makeDisk(surf_disk_try,disk_scale_try,randGen.genDiskPA(io),zeropoint,exptime,pix);
 }
 
 void Galaxy::setBar(float zeropoint, float exptime, float pix)
 {
-    bar.makeBar(surf_bar_try,randGen.genBarPa(),bar_ellip_try,bar_len_try,randGen.genBarShape(),bar_scale_try,zeropoint,exptime,pix);
+    bar.makeBar(surf_bar_try,randGen.genBarPa(io),bar_ellip_try,bar_len_try,randGen.genBarShape(io),bar_scale_try,zeropoint,exptime,pix);
 }
 
 void Galaxy::genCoordsNew(int x_in, int y_in, int xcen, int ycen)

@@ -14,6 +14,7 @@
 #include "RandomGen.h"
 #include "Disk.h"
 #include "Bar.h"
+#include "UserInput.h"
 
 class Galaxy
 {
@@ -28,6 +29,7 @@ public:
     float getDistance() const;
     float getInclination() const;
 private:
+    UserInput io;
     RandomGen randGen;
     
     // parameters of the galaxy
