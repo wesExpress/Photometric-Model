@@ -46,6 +46,8 @@ private:
     
     // parameter name
     std::string name;
+    static constexpr int minCol = 0;
+    static constexpr int maxCol = 1;
 };
 
 #endif /* defined(__Photometric_Model__RandomGen__) */
