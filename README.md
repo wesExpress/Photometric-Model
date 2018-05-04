@@ -21,7 +21,7 @@ The current accepted parameters are (with the required string name):
 + surf_bar --> bar central surface brightness (mag/arcsec^2)
 + bar_ecc --> bar eccentricity
 + bar_len --> bar length (kpc)
-+ bar_shape --> bar shape (*c* parameter in Freeman bar profile)
++ bar_shape --> bar shape (*c* parameter in bar coordinate equation)
 + bar_scale --> bar scale length (*r_s* parameter in Flat bar profile)
 
 Disk
