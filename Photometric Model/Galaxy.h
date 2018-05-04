@@ -51,6 +51,11 @@ private:
     float inc_try;
     float bar_ellip_try;
     
+    float barFerrer = 1.0f;
+    float barFlat = 2.0f;
+    float barInput;
+    float badInput = -10.0f;
+    
     // functions
     float doRadCon(float angle);
 };

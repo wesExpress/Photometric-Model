@@ -43,6 +43,9 @@ private:
     // random initializations
     std::random_device rd;
     std::mt19937 rng;
+    
+    // parameter name
+    std::string name;
 };
 
 #endif /* defined(__Photometric_Model__RandomGen__) */

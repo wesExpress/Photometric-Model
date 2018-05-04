@@ -17,6 +17,8 @@ void Galaxy::setGalaxy()
 {
     io.ReadInputs();
     
+    barInput = io.GetValue("bar_profile", 0);
+    
     distance = randGen.genDistance(io);
     
     // makes sure the disk is fainter than bar
@@ -36,10 +38,25 @@ void Galaxy::setGalaxy()
     {
         disk_scale_try = randGen.genDiskScale(io);
         bar_len_try = randGen.genBarLen(io);
-        bar_scale_try = randGen.genBarScale(io);
         
-        if(bar_len_try < disk_scale_try && bar_scale_try < disk_scale_try)
+        if(barInput == barFlat)
         {
+            bar_scale_try = randGen.genBarScale(io);
+            if(bar_len_try < disk_scale_try && bar_scale_try < disk_scale_try)
+            {
+                break;
+            }
+        }
+        else if(barInput == barFerrer)
+        {
+            if(bar_len_try < disk_scale_try)
+            {
+                break;
+            }
+        }
+        else
+        {
+            std::cout << "Error: Wrong input for bar profile." << std::endl;
             break;
         }
     }
@@ -73,7 +90,10 @@ void Galaxy::writeParams()
     std::cout << "Bar ellip = " << bar.GetEllip() << std::endl;
     std::cout << "Bar len (kpc) = " << bar.GetLen() << std::endl;
     std::cout << "Bar pa = " << bar.GetPa() << std::endl;
-    std::cout << "Bar scale (kpc) = " << bar.GetScale() << std::endl;
+    if(barInput == barFlat)
+    {
+        std::cout << "Bar scale (kpc) = " << bar.GetScale() << std::endl;
+    }
 }
 
 void Galaxy::setDisk(float zeropoint, float exptime, float pix)
@@ -83,7 +103,18 @@ void Galaxy::setDisk(float zeropoint, float exptime, float pix)
 
 void Galaxy::setBar(float zeropoint, float exptime, float pix)
 {
-    bar.makeBar(surf_bar_try,randGen.genBarPa(io),bar_ellip_try,bar_len_try,randGen.genBarShape(io),bar_scale_try,zeropoint,exptime,pix);
+    if(barInput == barFerrer)
+    {
+        bar.makeBarFerrer(surf_bar_try,randGen.genBarPa(io),bar_ellip_try,bar_len_try,randGen.genBarShape(io),zeropoint,exptime,pix);
+    }
+    else if(barInput == barFlat)
+    {
+        bar.makeBarFlat(surf_bar_try,randGen.genBarPa(io),bar_ellip_try,bar_len_try,bar_scale_try,zeropoint,exptime,pix);
+    }
+    else
+    {
+        std::cout << "Error: Wrong input for bar profile." << std::endl;
+    }
 }
 
 void Galaxy::genCoordsNew(int x_in, int y_in, int xcen, int ycen)
@@ -112,8 +143,19 @@ float Galaxy::diskInten(float factor)
 
 float Galaxy::barInten(float factor)
 {
-    return bar.intenFreeman(bar_coord, factor);
-    //return bar.intenFlat(bar_coord, factor);
+    if(barInput == barFerrer)
+    {
+        return bar.intenFreeman(bar_coord, factor);
+    }
+    else if(barInput == barFlat)
+    {
+        return bar.intenFlat(bar_coord, factor);
+    }
+    else
+    {
+        std::cout << "Error: Wrong input for bar profile." << std::endl;
+        return badInput;
+    }
 }
 
 float Galaxy::getDistance() const

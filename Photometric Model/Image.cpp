@@ -39,7 +39,14 @@ void Image::createImage()
             ccd_int = 0.0f;
             galaxy.genCoordsNew(nx, ny, ccd.GetXcen(), ccd.GetYcen());
             
-            ccd_int = galaxy.diskInten(pix_factor) + galaxy.barInten(pix_factor) + noise.GenNoise();
+            if(galaxy.barInten(pix_factor) != -10.0f)
+            {
+                ccd_int = galaxy.diskInten(pix_factor) + galaxy.barInten(pix_factor) + noise.GenNoise();
+            }
+            else
+            {
+                ccd_int = galaxy.diskInten(pix_factor) + noise.GenNoise();
+            }
             
             ofs << ccd_int << " ";
         }
