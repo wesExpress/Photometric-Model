@@ -13,6 +13,8 @@
 #include <random>
 #include <fstream>
 
+#include "UserInput.h"
+
 class RandomGen
 {
 public:
@@ -45,6 +47,8 @@ private:
     static constexpr int numCols = 2;
     
     float inputs[numRows][numCols];
+    
+    UserInput io;
 };
 
 #endif /* defined(__Photometric_Model__RandomGen__) */

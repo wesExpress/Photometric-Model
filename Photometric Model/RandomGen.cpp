@@ -17,7 +17,7 @@ RandomGen::RandomGen()
 
 void RandomGen::readInputs()
 {
-    std::ifstream infile("input.txt");
+    std::ifstream infile(io.GetInputFile());
     std::string s;
     int i = 0;
     while(std::getline(infile, s))
