@@ -30,3 +30,21 @@ std::string UserInput::GetInputFile()
         }
     }
 }
+
+void UserInput::ReadInputs()
+{
+    std::ifstream infile(GetInputFile());
+    std::string s;
+    int i = 0;
+    while(std::getline(infile, s))
+    {
+        infile >> inputs[i][0] >> inputs[i][1];
+        i++;
+    }
+    infile.close();
+}
+
+float UserInput::GetValue(int row, int col) const
+{
+    return inputs[row][col];
+}

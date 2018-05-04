@@ -19,7 +19,14 @@ class UserInput
 {
 public:
     std::string GetInputFile();
+    void ReadInputs();
+    float GetValue(int row, int col) const;
 private:
+    static constexpr int numRows = 10;
+    static constexpr int numCols = 2;
+    
+    float inputs[numRows][numCols];
+    
     std::string infile;
 };
 
