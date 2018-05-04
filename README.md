@@ -8,17 +8,21 @@ Currently, this code generates a galaxy with a distance in Mpc and inclination i
 
 Inputs
 ------
-Code takes a file called "inputs.txt" currently that contains the min and max values for the parameter distributions. For some reason, need to leave first line blank or have '//', since std::getline skips this line for some reason. The order of parameters is currently:
+Code takes a file called "inputs.txt" currently that contains the min (second column) and max (third column) values for the parameter (first column) distributions. For some reason, need to leave first line blank or have '//', since std::getline skips this line for some reason. The parameters don't need to be in any order, as the code searches for each parameter needed based on a string, the first column of the input file. For disk_profile and bar_profile, only the second column needs a number, the third can be anything. For disk_profile, 1 = sersic profile. For bar_profile, 1 = Ferrer and 2 = Flat.
+
+The current accepted parameters are (with the required string name):
++ disk_profile
++ bar_profile
 + distance (Mpc)
 + inclination (degrees)
-+ disk central surface brightness (mag/arcsec^2)
-+ disk scale length (kpc)
-+ disk position angle (degrees)
-+ bar central surface brightness (mag/arcsec^2)
-+ bar eccentricity
-+ bar length (kpc)
-+ bar shape (*c* parameter in Freeman bar profile)
-+ bar scale length (*r_s* parameter in Flat bar profile)
++ surf_disk --> disk central surface brightness (mag/arcsec^2)
++ disk_scale --> disk scale length (kpc)
++ disk_pa --> disk position angle (degrees)
++ surf_bar --> bar central surface brightness (mag/arcsec^2)
++ bar_ecc --> bar eccentricity
++ bar_len --> bar length (kpc)
++ bar_shape --> bar shape (*c* parameter in Freeman bar profile)
++ bar_scale --> bar scale length (*r_s* parameter in Flat bar profile)
 
 Disk
 ----
