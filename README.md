@@ -38,7 +38,7 @@ Bar
 + position angle --> in degrees
 + ellipticity
 + length --> in kpc
-+ shape --> value *c* in Freeman profile
++ shape --> *c* parameter in bar coordinate equation
 + scale length --> value *r_s* in Flat profile
 
 Currently has the option of a Freeman or Flat profile.
@@ -49,6 +49,7 @@ CCD
 + ny --> number of y pixels
 + pixscale --> plate scale of CCD (arcsec/pixel)
 + exptime --> exposure time of image in seconds
++ zeropoint --> photometric zeropoint of image (in magnitudes)
 
 Noise
 -----
