@@ -49,7 +49,7 @@ CCD
 + ny --> number of y pixels
 + pixscale --> plate scale of CCD (arcsec/pixel)
 + exptime --> exposure time of image in seconds
-+zeropoint --> photometric zeropoint of image (in magnitudes)
++ zeropoint --> photometric zeropoint of image (in magnitudes)
 
 Noise
 -----
