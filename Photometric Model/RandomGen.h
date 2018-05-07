@@ -15,6 +15,7 @@
 #include <fstream>
 
 #include "UserInput.h"
+#include "CCD.h"
 
 class RandomGen
 {
@@ -39,6 +40,11 @@ public:
     // noise
     float genSkyNoise();
     float genReadNoise();
+    
+    int genHoleX(const CCD& ccd);
+    int genHoleY(const CCD& ccd);
+    float genHolePercent();
+    float genHoleRadii();
 private:
     // random initializations
     std::random_device rd;

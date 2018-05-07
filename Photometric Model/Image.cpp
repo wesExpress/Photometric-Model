@@ -26,26 +26,41 @@ void Image::setComponents()
 
 void Image::createImage()
 {
+    noise.GenHole(ccd);
+    
     // open text file for output
     std::ofstream ofs;
     ofs.open("test.txt", std::ofstream::out | std::ofstream::app);
     
     // loop for making image text file
     float ccd_int;
-    for(int ny = 0; ny<ccd.GetY();ny++)
+    for(int ny = 0; ny<ccd.GetY(); ny++)
     {
-        for(int nx=0;nx<ccd.GetX();nx++)
+        for(int nx=0;nx<ccd.GetX(); nx++)
         {
             ccd_int = 0.0f;
             galaxy.genCoordsNew(nx, ny, ccd.GetXcen(), ccd.GetYcen());
+            bool barError = false;
+            if(galaxy.barInten(pix_factor) == -10.0f)
+            {
+                barError = true;
+            }
             
-            if(galaxy.barInten(pix_factor) != -10.0f)
+            if(!barError)
             {
                 ccd_int = galaxy.diskInten(pix_factor) + galaxy.barInten(pix_factor) + noise.GenNoise();
             }
             else
             {
                 ccd_int = galaxy.diskInten(pix_factor) + noise.GenNoise();
+            }
+            
+            for (int i = 0; i < noise.GetNumHole(); i++)
+            {
+                if((nx - noise.GetHoleX(i))*(nx - noise.GetHoleX(i)) + (ny - noise.GetHoleY(i))*(ny - noise.GetHoleY(i)) < noise.GetHoleRadius(i))
+                {
+                    ccd_int = noise.inHole(ccd_int, noise.GetHolePercent(i));
+                }
             }
             
             ofs << ccd_int << " ";

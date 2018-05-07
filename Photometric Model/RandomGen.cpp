@@ -103,3 +103,27 @@ float RandomGen::genReadNoise()
     std::uniform_real_distribution<float> readDist{3.5f,4.0f};
     return readDist(rng);
 }
+
+int RandomGen::genHoleX(const CCD& ccd)
+{
+    std::uniform_int_distribution<int> xDist{0,ccd.GetX()};
+    return xDist(rng);
+}
+
+int RandomGen::genHoleY(const CCD& ccd)
+{
+    std::uniform_int_distribution<int> yDist{0,ccd.GetY()};
+    return yDist(rng);
+}
+
+float RandomGen::genHolePercent()
+{
+    std::uniform_real_distribution<float> percentDist{0.5,0.8};
+    return percentDist(rng);
+}
+
+float RandomGen::genHoleRadii()
+{
+    std::uniform_real_distribution<float> holeRadii{5.0f,40.0f};
+    return holeRadii(rng);
+}

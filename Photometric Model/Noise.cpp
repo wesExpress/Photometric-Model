@@ -15,3 +15,44 @@ float Noise::GenNoise()
     
     return skyN + readN;
 }
+
+void Noise::GenHole(const CCD& ccd)
+{
+    for (int i = 0; i < numHoles; i++)
+    {
+        holeX[i] = randGen.genHoleX(ccd);
+        holeY[i] = randGen.genHoleY(ccd);
+        holePercent[i] = randGen.genHolePercent();
+        holeRadii[i] = randGen.genHoleRadii();
+    }
+}
+
+float Noise::inHole(float inten, float percent)
+{
+    return inten*percent;
+}
+
+int Noise::GetHoleX(int i)
+{
+    return holeX[i];
+}
+
+int Noise::GetHoleY(int i)
+{
+    return holeY[i];
+}
+
+float Noise::GetHoleRadius(int i)
+{
+    return holeRadii[i];
+}
+
+float Noise::GetHolePercent(int i)
+{
+    return holePercent[i];
+}
+
+int Noise::GetNumHole()
+{
+    return numHoles;
+}
