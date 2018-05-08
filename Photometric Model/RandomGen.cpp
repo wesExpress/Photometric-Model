@@ -118,12 +118,12 @@ int RandomGen::genHoleY(const CCD& ccd)
 
 float RandomGen::genHolePercent()
 {
-    std::uniform_real_distribution<float> percentDist{0.5,0.8};
+    std::uniform_real_distribution<float> percentDist{0.7,0.9};
     return percentDist(rng);
 }
 
 float RandomGen::genHoleRadii()
 {
-    std::uniform_real_distribution<float> holeRadii{5.0f,40.0f};
+    std::uniform_real_distribution<float> holeRadii{40.0f,120.0f};
     return holeRadii(rng);
 }

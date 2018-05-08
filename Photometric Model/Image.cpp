@@ -34,7 +34,10 @@ void Image::createImage()
     std::cout << "Creating image... " << std::endl;
     timer.Mark();
     
-    noise.GenHole(ccd);
+    if(noise.patchyDisk(io))
+    {
+        noise.GenHole(ccd);
+    }
     
     // open text file for output
     std::ofstream ofs;
@@ -64,11 +67,14 @@ void Image::createImage()
                 ccdInt = galaxy.diskInten(pix_factor);
             }
             
-            for (int i = 0; i < noise.GetNumHole(); i++)
+            if(noise.patchyDisk(io))
             {
-                if((nx - noise.GetHoleX(i))*(nx - noise.GetHoleX(i)) + (ny - noise.GetHoleY(i))*(ny - noise.GetHoleY(i)) < noise.GetHoleRadius(i))
+                for (int i = 0; i < noise.GetNumHole(); i++)
                 {
-                    ccdInt = noise.inHole(ccdInt, noise.GetHolePercent(i));
+                    if((nx - noise.GetHoleX(i))*(nx - noise.GetHoleX(i)) + (ny - noise.GetHoleY(i))*(ny - noise.GetHoleY(i)) < noise.GetHoleRadius(i))
+                    {
+                        ccdInt = noise.inHole(ccdInt, noise.GetHolePercent(i));
+                    }
                 }
             }
             
@@ -158,11 +164,14 @@ float Image::GetCCDInt(int nx, int ny)
         ccdInt = galaxy.diskInten(pix_factor);
     }
     
-    for (int i = 0; i < noise.GetNumHole(); i++)
+    if(noise.patchyDisk(io))
     {
-        if((nx - noise.GetHoleX(i))*(nx - noise.GetHoleX(i)) + (ny - noise.GetHoleY(i))*(ny - noise.GetHoleY(i)) < noise.GetHoleRadius(i))
+        for (int i = 0; i < noise.GetNumHole(); i++)
         {
-            ccdInt = noise.inHole(ccdInt, noise.GetHolePercent(i));
+            if((nx - noise.GetHoleX(i))*(nx - noise.GetHoleX(i)) + (ny - noise.GetHoleY(i))*(ny - noise.GetHoleY(i)) < noise.GetHoleRadius(i))
+            {
+                ccdInt = noise.inHole(ccdInt, noise.GetHolePercent(i));
+            }
         }
     }
     
