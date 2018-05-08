@@ -12,11 +12,14 @@
 #include <stdio.h>
 #include "RandomGen.h"
 #include "CCD.h"
+#include "UserInput.h"
+#include <string>
 
 class Noise
 {
 public:
     float GenNoise();
+    bool patchyDisk(UserInput& io);
     void GenHole(const CCD& ccd);
     float inHole(float inten, float percent);
     int GetHoleX(int i);
@@ -29,6 +32,8 @@ private:
     
     float skyN;
     float readN;
+    
+    std::string name;
     
     static constexpr int numHoles = 100;
     int holeX[numHoles];

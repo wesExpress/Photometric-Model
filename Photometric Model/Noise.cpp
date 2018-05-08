@@ -16,6 +16,12 @@ float Noise::GenNoise()
     return skyN + readN;
 }
 
+bool Noise::patchyDisk(UserInput& io)
+{
+    name = "patchy_disk";
+    return io.GetValue(name, 0) == 1.0f;
+}
+
 void Noise::GenHole(const CCD& ccd)
 {
     for (int i = 0; i < numHoles; i++)
