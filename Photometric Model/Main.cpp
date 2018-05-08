@@ -17,6 +17,7 @@ int main()
     Image image;
     image.setComponents();
     image.createImage();
+    image.convolveImage();
     
     return 0;
 }

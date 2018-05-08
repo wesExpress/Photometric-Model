@@ -14,17 +14,21 @@
 #include "Galaxy.h"
 #include "Noise.h"
 #include "CCD.h"
+#include "Kernel.h"
 
 class Image
 {
 public:
     void setComponents();
     void createImage();
+    void convolveImage();
+    float GetCCDInt(int nx, int ny);
 private:
     // components of image
     Galaxy galaxy;
     Noise noise;
     CCD ccd;
+    Kernel kernel;
     
     // various parameters
     float dist_kpc;
