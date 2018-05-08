@@ -19,17 +19,16 @@
 class Galaxy
 {
 public:
-    void setGalaxy();
+    void setGalaxy(UserInput& io);
     void writeParams();
-    void setDisk(float zeropoint, float exptime, float pix);
-    void setBar(float zeropoint, float exptime, float pix);
+    void setDisk(float zeropoint, float exptime, float pix, UserInput& io);
+    void setBar(float zeropoint, float exptime, float pix, UserInput& io);
     void genCoordsNew(int x_in, int y_in, int xcen, int ycen);
     float diskInten(float factor);
     float barInten(float factor);
     float getDistance() const;
     float getInclination() const;
 private:
-    UserInput io;
     RandomGen randGen;
     
     // parameters of the galaxy

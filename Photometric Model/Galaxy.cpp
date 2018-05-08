@@ -13,7 +13,7 @@
 
 #define PI 3.1415926535
 
-void Galaxy::setGalaxy()
+void Galaxy::setGalaxy(UserInput& io)
 {
     io.ReadInputs();
     
@@ -84,12 +84,12 @@ void Galaxy::writeParams()
     }
 }
 
-void Galaxy::setDisk(float zeropoint, float exptime, float pix)
+void Galaxy::setDisk(float zeropoint, float exptime, float pix, UserInput& io)
 {
     disk.makeDisk(surfDiskTry,diskScaleTry,randGen.genDiskPA(io),zeropoint,exptime,pix);
 }
 
-void Galaxy::setBar(float zeropoint, float exptime, float pix)
+void Galaxy::setBar(float zeropoint, float exptime, float pix, UserInput& io)
 {
     if(barInput == barFerrer)
     {
