@@ -15,6 +15,7 @@
 #include "Noise.h"
 #include "CCD.h"
 #include "Kernel.h"
+#include "UserInput.h"
 
 class Image
 {
@@ -29,6 +30,7 @@ private:
     Noise noise;
     CCD ccd;
     Kernel kernel;
+    UserInput io;
     
     // various parameters
     float dist_kpc;

@@ -13,15 +13,20 @@
 
 void Image::setComponents()
 {
-    galaxy.setGalaxy();
+    galaxy.setGalaxy(io);
     
     dist_kpc = galaxy.getDistance()*1000.;
     pix_factor = 1.0f/dist_kpc*206265.0f/ccd.GetPix();
 
-    galaxy.setDisk(ccd.GetZeropt(),ccd.GetExpt(),ccd.GetPix());
-    galaxy.setBar(ccd.GetZeropt(),ccd.GetExpt(),ccd.GetPix());
+    galaxy.setDisk(ccd.GetZeropt(),ccd.GetExpt(),ccd.GetPix(),io);
+    galaxy.setBar(ccd.GetZeropt(),ccd.GetExpt(),ccd.GetPix(),io);
     
     galaxy.writeParams();
+    
+    if(kernel.convolve(io))
+    {
+        kernel.ReadSeeing(io);
+    }
 }
 
 void Image::createImage()
@@ -73,6 +78,11 @@ void Image::createImage()
     
     // close text file
     ofs.close();
+    
+    if(kernel.convolve(io))
+    {
+        convolveImage();
+    }
 }
 
 void Image::convolveImage()
@@ -90,9 +100,9 @@ void Image::convolveImage()
     std::ofstream ofs;
     ofs.open("testConv.txt", std::ofstream::out | std::ofstream::app);
     
-    for (int i = 0; i < ccd.GetY(); i++)
+    for (int i = 0; i < rows; i++)
     {
-        for (int j = 0; j < ccd.GetX(); j++)
+        for (int j = 0; j < cols; j++)
         {
             ccdIntConv[i*rows+j] = 0.0f;
             for (int m = 0; m < kernel.GetRows(); m++)
@@ -106,7 +116,7 @@ void Image::convolveImage()
                     int ii = i + (m - kCenterY);
                     int jj = j + (n - kCenterX);
                     
-                    if(ii >= 0 && ii < ccd.GetY() && jj >= 0 && jj < ccd.GetX())
+                    if(ii >= 0 && ii < rows && jj >= 0 && jj < cols)
                     {
                         ccdIntConv[i*rows+j] += GetCCDInt(jj, ii)*kernel.GetMoffat(mm, nn);
                     }
