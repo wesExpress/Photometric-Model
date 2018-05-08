@@ -15,7 +15,11 @@
 bool Kernel::convolve(UserInput& io)
 {
     name = "seeing";
-    return io.GetValue(name, 0) == 1.0f;
+    if(io.GetValue(name, 0) == 1.0f)
+    {
+        return true;
+    }
+    return false;
 }
 
 void Kernel::ReadSeeing(UserInput& io)
@@ -24,7 +28,7 @@ void Kernel::ReadSeeing(UserInput& io)
     name = "fwhm";
     fwhm = io.GetValue(name,0);
     name = "beta";
-    beta = io.GetValue(name,1);
+    beta = io.GetValue(name,0);
     alpha = fwhm/(2.0f*sqrt(pow(2.0f,1.0f/beta) - 1.0f));
         
     std::cout << std::endl;

@@ -16,6 +16,7 @@
 #include "CCD.h"
 #include "Kernel.h"
 #include "UserInput.h"
+#include "Timer.h"
 
 class Image
 {
@@ -31,6 +32,7 @@ private:
     CCD ccd;
     Kernel kernel;
     UserInput io;
+    Timer timer;
     
     // various parameters
     float dist_kpc;

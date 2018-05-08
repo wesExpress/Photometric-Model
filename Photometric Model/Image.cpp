@@ -31,6 +31,9 @@ void Image::setComponents()
 
 void Image::createImage()
 {
+    std::cout << "Creating image... " << std::endl;
+    timer.Mark();
+    
     noise.GenHole(ccd);
     
     // open text file for output
@@ -79,9 +82,14 @@ void Image::createImage()
     // close text file
     ofs.close();
     
+    std::cout << "Done. Took " << timer.Mark() << " seconds." << std::endl;
+    
     if(kernel.convolve(io))
     {
+        std::cout << "Convolving image..." << std::endl;
+        timer.Mark();
         convolveImage();
+        std::cout << "Done. Took " << timer.Mark() << " seconds." << std::endl;
     }
 }
 
