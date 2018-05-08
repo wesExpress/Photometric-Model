@@ -12,6 +12,27 @@
 
 #define PI 3.1415926535
 
+bool Kernel::convolve(UserInput& io)
+{
+    name = "seeing";
+    return io.GetValue(name, 0) == 1.0f;
+}
+
+void Kernel::ReadSeeing(UserInput& io)
+{
+    // must be in pixels!!! //
+    name = "fwhm";
+    fwhm = io.GetValue(name,0);
+    name = "beta";
+    beta = io.GetValue(name,1);
+    alpha = fwhm/(2.0f*sqrt(pow(2.0f,1.0f/beta) - 1.0f));
+        
+    std::cout << std::endl;
+    std::cout << "FWHM (pixels) = " << fwhm << std::endl;
+    std::cout << "Beta = " << beta << std::endl;
+    std::cout << std::endl;
+}
+
 void Kernel::calculateMoffat()
 {
     float top = beta - 1.0f;
@@ -25,9 +46,9 @@ void Kernel::calculateMoffat()
             float r = x[j]*x[j] + y[i]*y[i];
             float right = pow(1.0f + (r*r)/alpha,-beta);
             
-            moffat[i][j] = right*top/bottom;
+            moffat[i*rows + j] = right*top/bottom;
             
-            moffatSum += moffat[i][j];
+            moffatSum += moffat[i*rows + j];
             //std::cout << moffatSum << std::endl;
         }
     }
@@ -36,7 +57,7 @@ void Kernel::calculateMoffat()
     {
         for(int j =0; j < cols; j++)
         {
-            moffat[i][j] = moffat[i][j]/moffatSum;
+            moffat[i*rows + j] = moffat[i*rows + j]/moffatSum;
             
         }
     }
@@ -54,5 +75,5 @@ int Kernel::GetRows()
 
 float Kernel::GetMoffat(int i, int j)
 {
-    return moffat[i][j];
+    return moffat[i*rows + j];
 }

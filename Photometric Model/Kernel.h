@@ -11,25 +11,31 @@
 
 #include <stdio.h>
 #include "math.h"
+#include "UserInput.h"
+#include <string>
 
 class Kernel
 {
 public:
+    void ReadSeeing(UserInput& io);
     void calculateMoffat();
     int GetCols();
     int GetRows();
     float GetMoffat(int i, int j);
+    bool convolve(UserInput& io);
 private:
-    static constexpr int cols = 5;
-    static constexpr int rows = 5;
+    static constexpr int cols = 11;
+    static constexpr int rows = 11;
     
-    static constexpr float beta = 3.0f;
-    static constexpr float fwhm = 4.385f;
-    float alpha = fwhm/(2.0f*sqrt(pow(2.0f,1.0f/beta) - 1.0f));
+    float beta;
+    float fwhm;
+    float alpha;
     
-    float moffat[cols][rows];
-    float x[cols] = {-2,-1,0,1,2};
-    float y[rows] = {-2,-1,0,1,2};
+    float moffat[cols*rows];
+    float x[cols] = {-5,-4,-3,-2,-1,0,1,2,3,4,5};
+    float y[rows] = {-5,-4,-3,-2,-1,0,1,2,3,4,5};
+    
+    std::string name;
 };
 
 #endif /* defined(__Photometric_Model__Kernel__) */
