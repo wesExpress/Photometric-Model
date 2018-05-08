@@ -8,19 +8,22 @@ Currently, this code generates a galaxy with a distance in Mpc and inclination i
 
 Inputs
 ------
-Code takes a file called "inputs.txt" currently that contains the min (second column) and max (third column) values for the parameter (first column) distributions. Need to leave first line blank or have '//', since std::getline skips this line for some reason. The parameters don't need to be in any order, as the code searches for each parameter needed based on a string, the first column of the input file. For disk_profile and bar_profile, only the second column needs a number, the third can be anything. For disk_profile, 1 = sersic profile. For bar_profile, 1 = Ferrer and 2 = Flat.
+Code takes a file called "inputs.txt" currently that contains the min (second column) and max (third column) values for the parameter (first column) distributions. Need to leave first line blank or have '//', since std::getline skips this line for some reason. The parameters don't need to be in any order, as the code searches for each parameter needed based on a string, the first column of the input file. For disk_profile and bar_profile, only the second column needs a number, the third can be anything. For disk_profile, 1 = sersic profile. For bar_profile, 1 = Ferrer and 2 = Flat. Likewise, the seeing parameters (seeing, fwhm, beta) only need a number in the second column. If seeing is 1, then the program convolves the CCD intensity with a Moffat profile given the next two parameters (FWHM and beta).
 
 The current accepted parameters are (with the required string name):
 + disk_profile
 + bar_profile
-+ distance (Mpc)
-+ inclination (degrees)
-+ surf_disk --> disk central surface brightness (mag/arcsec^2)
-+ disk_scale --> disk scale length (kpc)
-+ disk_pa --> disk position angle (degrees)
-+ surf_bar --> bar central surface brightness (mag/arcsec^2)
++ seeing
++ fwhm --> must be in pixels
++ beta --> shape of Moffat profile
++ distance --> must be in Mpc
++ inclination --> must be in degrees
++ surf_disk --> disk central surface brightness (must be in mag/arcsec^2)
++ disk_scale --> disk scale length (must be in kpc)
++ disk_pa --> disk position angle (must be in degrees)
++ surf_bar --> bar central surface brightness (must be in mag/arcsec^2)
 + bar_ecc --> bar eccentricity
-+ bar_len --> bar length (kpc)
++ bar_len --> bar length (must be in kpc)
 + bar_shape --> bar shape (*c* parameter in bar coordinate equation)
 + bar_scale --> bar scale length (*r_s* parameter in Flat bar profile)
 
@@ -55,6 +58,7 @@ Noise
 -----
 + sky
 + read
++ patchy disk --> random (x,y) positions of random radii with random light percentage decreases to mimic a patchy disk
 
 COUPLING OF PARAMETERS
 ----------------------
@@ -66,6 +70,4 @@ COUPLING OF PARAMETERS
 TO BE ADDED IN FUTURE
 ---------------------
 
-+ Seeing effects --> convolve image with either Gaussian or Moffat profile
-+ 'Patchy' Disk 
 + Spiral arms --> would be nice to add spiral arms into the image
