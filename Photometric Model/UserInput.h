@@ -22,7 +22,7 @@ public:
     void ReadInputs();
     float GetValue(std::string name, int col) const;
 private:
-    static constexpr int numRows = 16;
+    static constexpr int numRows = 17;
     static constexpr int numCols = 2;
     
     float input_vals[numRows][numCols];
