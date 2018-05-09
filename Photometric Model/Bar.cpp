@@ -32,7 +32,17 @@ void Bar::makeBarFlat(float surf_bright_in, float pa_in, float ellip_in, float l
     shape = shape_in;
 }
 
-float Bar::intenFreeman(float r, float pix_factor)
+void Bar::makeBarFreeman(float surf_bright_in, float pa_in, float ellip_in, float len_in, float shape_in, float zeropoint, float exptime, float pix)
+{
+    surf_bright = surf_bright_in;
+    pa=pa_in;
+    ellip=ellip_in;
+    len=len_in;
+    shape=shape_in;
+    cen_int = exptime*pix*pix*pow(10.0f,(zeropoint-surf_bright)/2.5);
+}
+
+float Bar::intenFerrer(float r, float pix_factor)
 {
     const float len_pix = len*pix_factor;
     if(r <= len_pix)
@@ -50,6 +60,19 @@ float Bar::intenFlat(float r, float pix_factor)
     const float len_pix = len*pix_factor;
     const float scale_pix = scale*pix_factor;
     return cen_int*(1.0f/(1.0f+exp((r-len_pix)/scale_pix)));
+}
+
+float Bar::intenFreeman(float r, float pix_factor)
+{
+    const float len_pix = len*pix_factor;
+    if( r<= len_pix)
+    {
+        return cen_int*sqrt(1.0f - pow(r/len_pix,2.0f));
+    }
+    else
+    {
+        return 0.0f;
+    }
 }
 
 float Bar::GetCenInt() const
