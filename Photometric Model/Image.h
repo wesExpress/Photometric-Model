@@ -22,7 +22,7 @@ class Image
 {
 public:
     void Run(std::string filename, std::string output);
-    void setComponents(std::string filename);
+    void setComponents(std::string filename, std::string output);
     void createImage(std::string output_in);
     void convolveImage(float ccdArray[], int rowsIn, std::string output_in);
     float GetCCDInt(int nx, int ny);

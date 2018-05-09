@@ -14,11 +14,11 @@
 
 void Image::Run(std::string filename, std::string output)
 {
-    setComponents(filename);
+    setComponents(filename, output);
     createImage(output);
 }
 
-void Image::setComponents(std::string filename)
+void Image::setComponents(std::string filename, std::string output)
 {
     galaxy.setGalaxy(io,filename);
     
@@ -28,7 +28,8 @@ void Image::setComponents(std::string filename)
     galaxy.setDisk(ccd.GetZeropt(),ccd.GetExpt(),ccd.GetPix(),io);
     galaxy.setBar(ccd.GetZeropt(),ccd.GetExpt(),ccd.GetPix(),io);
     
-    galaxy.writeParams();
+    galaxy.writeParamsTerminal();
+    galaxy.writeParamsFile(output,pix_factor);
     
     if(kernel.convolve(io))
     {
