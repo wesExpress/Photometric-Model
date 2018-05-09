@@ -21,6 +21,7 @@
 class Image
 {
 public:
+    void Run();
     void setComponents();
     void createImage();
     void convolveImage(float ccdArray[], int rowsIn);

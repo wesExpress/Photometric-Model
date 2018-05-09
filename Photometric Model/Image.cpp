@@ -12,6 +12,12 @@
 
 #include "Image.h"
 
+void Image::Run()
+{
+    setComponents();
+    createImage();
+}
+
 void Image::setComponents()
 {
     galaxy.setGalaxy(io);

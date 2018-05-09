@@ -15,8 +15,7 @@
 int main()
 {
     Image image;
-    image.setComponents();
-    image.createImage();
+    image.Run();
     
     return 0;
 }
