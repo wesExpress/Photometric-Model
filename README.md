@@ -8,14 +8,15 @@ Currently, this code generates a galaxy with a distance in Mpc and inclination i
 
 Inputs
 ------
-Code takes a file called "inputs.txt" currently that contains the min (second column) and max (third column) values for the parameter (first column) distributions. Need to leave first line blank or have '//', since std::getline skips this line for some reason. The parameters don't need to be in any order, as the code searches for each parameter needed based on a string, the first column of the input file. For disk_profile and bar_profile, only the second column needs a number, the third can be anything. For disk_profile, 1 = sersic profile. For bar_profile, 1 = Ferrer and 2 = Flat. Likewise, the seeing parameters (seeing, fwhm, beta) only need a number in the second column. If seeing is 1, then the program convolves the CCD intensity with a Moffat profile given the next two parameters (FWHM and beta).
+Code takes a file called "inputs.txt" currently that contains the min (second column) and max (third column) values for the parameter (first column) distributions. Need to leave first line blank or have '//', since std::getline skips this line for some reason. The parameters don't need to be in any order, as the code searches for each parameter needed based on a string, the first column of the input file. For disk_profile and bar_profile, only the second column needs a number, the third can be anything. For disk_profile, 1 = sersic profile. For bar_profile, 1 = Ferrer and 2 = Flat. Likewise, the seeing parameters (seeing, fwhm, beta) only need a number in the second column. If seeing is 1, then the program convolves the CCD intensity with a Moffat profile given the next two parameters (FWHM and beta). If patchy_disk is 1, then the program adds some 'holes' to the disk in order to make it less perfect.
 
 The current accepted parameters are (with the required string name):
-+ disk_profile
-+ bar_profile
-+ seeing
-+ fwhm --> must be in pixels
-+ beta --> shape of Moffat profile
++ output --> name output file
++ output_conv --> name of output file with seeing convolution
++ disk_profile --> 1 for sersic
++ bar_profile --> 1 for Ferrer, 2 for flat
++ seeing --> 1 for seeing convolution, 0 to ignore
++ patchy_disk --> 1 for patchy disk, 0 to ignore
 + distance --> must be in Mpc
 + inclination --> must be in degrees
 + surf_disk --> disk central surface brightness (must be in mag/arcsec^2)
@@ -26,6 +27,8 @@ The current accepted parameters are (with the required string name):
 + bar_len --> bar length (must be in kpc)
 + bar_shape --> bar shape (*c* parameter in bar coordinate equation)
 + bar_scale --> bar scale length (*r_s* parameter in Flat bar profile)
++ fwhm --> fwhm of seeing of image (must be in pixels)
++ beta --> shape of Moffat profile
 
 Disk
 ----
