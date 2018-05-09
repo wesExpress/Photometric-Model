@@ -44,43 +44,17 @@ void Image::createImage()
     ofs.open("test.txt", std::ofstream::out | std::ofstream::app);
     
     // loop for making image text file
-    float ccdInt;
+    int ccdCols = ccd.GetX();
+    int ccdRows = ccd.GetY();
+    float *ccdInt = new float[ccdCols*ccdRows];
     
-    for(int ny = 0; ny<ccd.GetY(); ny++)
+    for(int ny = 0; ny < ccdRows; ny++)
     {
-        for(int nx=0;nx<ccd.GetX(); nx++)
+        for(int nx=0;nx < ccdCols; nx++)
         {
-            ccdInt = 0.0f;
-            galaxy.genCoordsNew(nx, ny, ccd.GetXcen(), ccd.GetYcen());
-            bool barError = false;
-            if(galaxy.barInten(pix_factor) == -10.0f)
-            {
-                barError = true;
-            }
+            ccdInt[ny*ccdRows + nx] = GetCCDInt(nx, ny);
             
-            if(!barError)
-            {
-                ccdInt = galaxy.diskInten(pix_factor) + galaxy.barInten(pix_factor);
-            }
-            else
-            {
-                ccdInt = galaxy.diskInten(pix_factor);
-            }
-            
-            if(noise.patchyDisk(io))
-            {
-                for (int i = 0; i < noise.GetNumHole(); i++)
-                {
-                    if((nx - noise.GetHoleX(i))*(nx - noise.GetHoleX(i)) + (ny - noise.GetHoleY(i))*(ny - noise.GetHoleY(i)) < noise.GetHoleRadius(i))
-                    {
-                        ccdInt = noise.inHole(ccdInt, noise.GetHolePercent(i));
-                    }
-                }
-            }
-            
-            ccdInt += noise.GenNoise();
-            
-            ofs << ccdInt << " ";
+            ofs << ccdInt[ny*ccdRows + nx] << " ";
         }
         ofs << std::endl;
     }
@@ -94,12 +68,14 @@ void Image::createImage()
     {
         std::cout << "Convolving image..." << std::endl;
         timer.Mark();
-        convolveImage();
+        convolveImage(ccdInt, ccdRows);
         std::cout << "Done. Took " << timer.Mark() << " seconds." << std::endl;
     }
+    
+    delete [] ccdInt;
 }
 
-void Image::convolveImage()
+void Image::convolveImage(float ccdArray[], int rowsIn)
 {
     kernel.calculateMoffat();
     
@@ -132,7 +108,7 @@ void Image::convolveImage()
                     
                     if(ii >= 0 && ii < rows && jj >= 0 && jj < cols)
                     {
-                        ccdIntConv[i*rows+j] += GetCCDInt(jj, ii)*kernel.GetMoffat(mm, nn);
+                        ccdIntConv[i*rows+j] += ccdArray[ii*rowsIn + jj]*kernel.GetMoffat(mm, nn);
                     }
                 }
             }
@@ -147,7 +123,7 @@ void Image::convolveImage()
 
 float Image::GetCCDInt(int nx, int ny)
 {
-    float ccdInt = 0.0f;
+    float inten = 0.0f;
     galaxy.genCoordsNew(nx, ny, ccd.GetXcen(), ccd.GetYcen());
     bool barError = false;
     if(galaxy.barInten(pix_factor) == -10.0f)
@@ -157,11 +133,11 @@ float Image::GetCCDInt(int nx, int ny)
     
     if(!barError)
     {
-        ccdInt = galaxy.diskInten(pix_factor) + galaxy.barInten(pix_factor);
+        inten = galaxy.diskInten(pix_factor) + galaxy.barInten(pix_factor);
     }
     else
     {
-        ccdInt = galaxy.diskInten(pix_factor);
+        inten = galaxy.diskInten(pix_factor);
     }
     
     if(noise.patchyDisk(io))
@@ -170,12 +146,12 @@ float Image::GetCCDInt(int nx, int ny)
         {
             if((nx - noise.GetHoleX(i))*(nx - noise.GetHoleX(i)) + (ny - noise.GetHoleY(i))*(ny - noise.GetHoleY(i)) < noise.GetHoleRadius(i))
             {
-                ccdInt = noise.inHole(ccdInt, noise.GetHolePercent(i));
+                inten = noise.inHole(inten, noise.GetHolePercent(i));
             }
         }
     }
     
-    ccdInt += noise.GenNoise();
+    inten += noise.GenNoise();
     
-    return ccdInt;
+    return inten;
 }

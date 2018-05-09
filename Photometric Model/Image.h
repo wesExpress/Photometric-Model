@@ -23,7 +23,7 @@ class Image
 public:
     void setComponents();
     void createImage();
-    void convolveImage();
+    void convolveImage(float ccdArray[], int rowsIn);
     float GetCCDInt(int nx, int ny);
 private:
     // components of image
