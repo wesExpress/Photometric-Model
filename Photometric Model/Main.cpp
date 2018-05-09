@@ -9,13 +9,17 @@
 
 #include <fstream>
 #include <iostream>
+#include <string>
 
 #include "Image.h"
 
-int main()
+int main(int argc, char* argv[])
 {
+    std::string filename = argv[1];
+    std::string output = argv[2];
+    
     Image image;
-    image.Run();
+    image.Run(filename,output);
     
     return 0;
 }
