@@ -15,7 +15,7 @@
 bool Kernel::convolve(UserInput& io)
 {
     name = "seeing";
-    if(io.GetValue(name, 0) == 1.0f)
+    if(std::stof(io.GetValue(name, 0)) == 1.0f)
     {
         return true;
     }
@@ -26,9 +26,9 @@ void Kernel::ReadSeeing(UserInput& io)
 {
     // must be in pixels!!! //
     name = "fwhm";
-    fwhm = io.GetValue(name,0);
+    fwhm = std::stof(io.GetValue(name,0));
     name = "beta";
-    beta = io.GetValue(name,0);
+    beta = std::stof(io.GetValue(name,0));
     alpha = fwhm/(2.0f*sqrt(pow(2.0f,1.0f/beta) - 1.0f));
         
     std::cout << std::endl;

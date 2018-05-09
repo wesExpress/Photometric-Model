@@ -37,6 +37,8 @@ private:
     // various parameters
     float dist_kpc;
     float pix_factor;
+    
+    std::string name;
 };
 
 #endif /* defined(__Photometric_Model__Image__) */

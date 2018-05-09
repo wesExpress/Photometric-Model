@@ -17,7 +17,7 @@ void Galaxy::setGalaxy(UserInput& io)
 {
     io.ReadInputs();
     
-    barInput = io.GetValue(barInputString, 0);
+    barInput = std::stof(io.GetValue(barInputString, 0));
     
     distance = randGen.genDistance(io);
     

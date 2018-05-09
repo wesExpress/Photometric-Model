@@ -31,6 +31,13 @@ void Image::setComponents()
 
 void Image::createImage()
 {
+    name = "output";
+    std::string output = io.GetValue(name, 0) + ".txt";
+    
+    // open text file for output
+    std::ofstream ofs;
+    ofs.open(output, std::ofstream::out | std::ofstream::app);
+    
     std::cout << "Creating image... " << std::endl;
     timer.Mark();
     
@@ -38,10 +45,6 @@ void Image::createImage()
     {
         noise.GenHole(ccd);
     }
-    
-    // open text file for output
-    std::ofstream ofs;
-    ofs.open("test.txt", std::ofstream::out | std::ofstream::app);
     
     // loop for making image text file
     int ccdCols = ccd.GetX();
@@ -71,12 +74,22 @@ void Image::createImage()
         convolveImage(ccdInt, ccdRows);
         std::cout << "Done. Took " << timer.Mark() << " seconds." << std::endl;
     }
+    else
+    {
+        std::cout << "No convolution performed." << std::endl;
+    }
     
     delete [] ccdInt;
 }
 
 void Image::convolveImage(float ccdArray[], int rowsIn)
 {
+    name = "output_conv";
+    std::string output = io.GetValue(name, 0) + ".txt";
+    
+    std::ofstream ofs;
+    ofs.open(output, std::ofstream::out | std::ofstream::app);
+    
     kernel.calculateMoffat();
     
     int kCenterX = kernel.GetCols()/2;
@@ -86,9 +99,6 @@ void Image::convolveImage(float ccdArray[], int rowsIn)
     int cols = ccd.GetX();
     
     float *ccdIntConv = new float[rows*cols];
-    
-    std::ofstream ofs;
-    ofs.open("testConv.txt", std::ofstream::out | std::ofstream::app);
     
     for (int i = 0; i < rows; i++)
     {

@@ -19,7 +19,7 @@ float Noise::GenNoise()
 bool Noise::patchyDisk(UserInput& io)
 {
     name = "patchy_disk";
-    return io.GetValue(name, 0) == 1.0f;
+    return std::stof(io.GetValue(name, 0)) == 1.0f;
 }
 
 void Noise::GenHole(const CCD& ccd)
