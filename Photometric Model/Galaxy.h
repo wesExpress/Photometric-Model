@@ -53,6 +53,7 @@ private:
     std::string barInputString = "bar_profile";
     float barFerrer = 1.0f;
     float barFlat = 2.0f;
+    float barFreeman = 3.0f;
     float barInput;
     float badInput = -10.0f;
     

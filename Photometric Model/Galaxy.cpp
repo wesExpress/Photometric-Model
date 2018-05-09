@@ -99,6 +99,10 @@ void Galaxy::setBar(float zeropoint, float exptime, float pix, UserInput& io)
     {
         bar.makeBarFlat(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),barScaleTry,zeropoint,exptime,pix);
     }
+    else if(barInput == barFreeman)
+    {
+        bar.makeBarFreeman(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),zeropoint,exptime,pix);
+    }
     else
     {
         std::cout << "Error: Wrong input for bar profile." << std::endl;
@@ -133,11 +137,15 @@ float Galaxy::barInten(float factor)
 {
     if(barInput == barFerrer)
     {
-        return bar.intenFreeman(bar_coord, factor);
+        return bar.intenFerrer(bar_coord, factor);
     }
     else if(barInput == barFlat)
     {
         return bar.intenFlat(bar_coord, factor);
+    }
+    else if(barInput == barFreeman)
+    {
+        return bar.intenFreeman(bar_coord, factor);
     }
     else
     {
