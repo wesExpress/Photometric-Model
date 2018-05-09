@@ -8,32 +8,28 @@
 
 #include "UserInput.h"
 
-std::string UserInput::GetInputFile()
+std::string UserInput::GetInputFile(std::string filename)
 {
     while (true)
     {
-        std::cout << "Enter file name : " << std::endl;
-        std::string test;
-        getline(std::cin, test);
-        
-        std::ifstream fileCheck(test);
+        std::ifstream fileCheck(filename);
         if(fileCheck)
         {
-            infile = test;
+            infile = filename;
             std::cout << std::endl;
             //std::cout << infile << std::endl;
             return infile;
         }
         else
         {
-            std::cout << "Error: No such file in this directory. Try again." << std::endl;;
+            std::cout << "Error: No such file " << filename << " in this directory. Try again." << std::endl;;
         }
     }
 }
 
-void UserInput::ReadInputs()
+void UserInput::ReadInputs(std::string filename)
 {
-    std::ifstream infile(GetInputFile());
+    std::ifstream infile(GetInputFile(filename));
     std::string s;
     int i = 0;
     while(std::getline(infile, s))

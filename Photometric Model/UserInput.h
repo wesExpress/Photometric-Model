@@ -18,8 +18,8 @@
 class UserInput
 {
 public:
-    std::string GetInputFile();
-    void ReadInputs();
+    std::string GetInputFile(std::string filename);
+    void ReadInputs(std::string filename);
     std::string GetValue(std::string name, int col) const;
 private:
     static constexpr int numRows = 19;
