@@ -45,7 +45,7 @@ void UserInput::ReadInputs()
     infile.close();
 }
 
-float UserInput::GetValue(std::string name, int col) const
+std::string UserInput::GetValue(std::string name, int col) const
 {
     int index = -1;
     for(int i = 0; i < numRows; i++)
@@ -63,6 +63,6 @@ float UserInput::GetValue(std::string name, int col) const
     else
     {
         std::cout << "Error: Parameter " << name << " missing from input file.";
-        return -180.0f;
+        return std::to_string(-180.0f);
     }
 }

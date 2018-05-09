@@ -20,15 +20,13 @@ class UserInput
 public:
     std::string GetInputFile();
     void ReadInputs();
-    float GetValue(std::string name, int col) const;
+    std::string GetValue(std::string name, int col) const;
 private:
-    static constexpr int numRows = 17;
+    static constexpr int numRows = 19;
     static constexpr int numCols = 2;
     
-    float input_vals[numRows][numCols];
+    std::string input_vals[numRows][numCols];
     std::string input_names[numRows];
-    std::string disk_profile;
-    std::string bar_profile;
     
     std::string infile;
 };
