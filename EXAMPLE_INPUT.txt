@@ -1,0 +1,18 @@
+// INPUT FILE FOR PHOTOMETRIC MODEL
+disk_profile    1      0
+bar_profile     1      0
+seeing	        1      0
+patchy_disk     0      0
+distance       100.0  150.0
+inclination    20.0   70.0
+surf_disk      22.5   24.0
+disk_pa       -90.0   90.0
+disk_scale      1.0    6.0
+surf_bar       22.0   23.0
+bar_pa        -90.0   90.0
+bar_ecc         0.2    0.8
+bar_len         0.5    5.0
+bar_shape       1.8    2.2
+bar_scale       2.0    5.0
+fwhm            4.5    0
+beta            3.5    0
