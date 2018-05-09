@@ -21,10 +21,10 @@
 class Image
 {
 public:
-    void Run();
-    void setComponents();
-    void createImage();
-    void convolveImage(float ccdArray[], int rowsIn);
+    void Run(std::string filename, std::string output);
+    void setComponents(std::string filename);
+    void createImage(std::string output_in);
+    void convolveImage(float ccdArray[], int rowsIn, std::string output_in);
     float GetCCDInt(int nx, int ny);
 private:
     // components of image

@@ -12,15 +12,15 @@
 
 #include "Image.h"
 
-void Image::Run()
+void Image::Run(std::string filename, std::string output)
 {
-    setComponents();
-    createImage();
+    setComponents(filename);
+    createImage(output);
 }
 
-void Image::setComponents()
+void Image::setComponents(std::string filename)
 {
-    galaxy.setGalaxy(io);
+    galaxy.setGalaxy(io,filename);
     
     dist_kpc = galaxy.getDistance()*1000.;
     pix_factor = 1.0f/dist_kpc*206265.0f/ccd.GetPix();
@@ -36,10 +36,9 @@ void Image::setComponents()
     }
 }
 
-void Image::createImage()
+void Image::createImage(std::string output_in)
 {
-    name = "output";
-    std::string output = io.GetValue(name, 0) + ".txt";
+    std::string output = output_in + ".txt";
     
     std::ifstream fileCheck(output);
     if(fileCheck)
@@ -91,7 +90,7 @@ void Image::createImage()
     {
         std::cout << "Convolving image..." << std::endl;
         timer.Mark();
-        convolveImage(ccdInt, ccdRows);
+        convolveImage(ccdInt, ccdRows, output_in);
         std::cout << "Done. Took " << timer.Mark() << " seconds." << std::endl;
     }
     else
@@ -102,10 +101,9 @@ void Image::createImage()
     delete [] ccdInt;
 }
 
-void Image::convolveImage(float ccdArray[], int rowsIn)
+void Image::convolveImage(float ccdArray[], int rowsIn, std::string output_in)
 {
-    name = "output_conv";
-    std::string output = io.GetValue(name, 0) + ".txt";
+    std::string output = output_in + "_conv.txt";
     
     std::ifstream fileCheck(output);
     if(fileCheck)
