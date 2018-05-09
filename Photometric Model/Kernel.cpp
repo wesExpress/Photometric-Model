@@ -32,7 +32,7 @@ void Kernel::ReadSeeing(UserInput& io)
     alpha = fwhm/(2.0f*sqrt(pow(2.0f,1.0f/beta) - 1.0f));
         
     std::cout << std::endl;
-    std::cout << "FWHM (pixels) = " << fwhm << std::endl;
+    std::cout << "Seeing FWHM (pixels) = " << fwhm << std::endl;
     std::cout << "Beta = " << beta << std::endl;
     std::cout << std::endl;
 }

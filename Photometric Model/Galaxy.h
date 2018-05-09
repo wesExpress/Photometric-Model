@@ -51,6 +51,7 @@ private:
     float barEllipTry;
     
     std::string barInputString = "bar_profile";
+    float barNo = 0.0f;
     float barFerrer = 1.0f;
     float barFlat = 2.0f;
     float barFreeman = 3.0f;

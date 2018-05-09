@@ -21,45 +21,62 @@ void Galaxy::setGalaxy(UserInput& io)
     
     distance = randGen.genDistance(io);
     
-    // makes sure the disk is fainter than bar
-    while (true)
+    if(barInput != barNo)
+    {
+        // makes sure the disk is fainter than bar
+        while (true)
+        {
+            surfDiskTry = randGen.genSurfDisk(io);
+            surfBarTry = randGen.genSurfBar(io);
+            const float cond = surfDiskTry - surfBarTry;
+        
+            if(cond > 0.0f && cond < 1.0f)
+            {
+                break;
+            }
+        }
+        // makes sure the bar is shorter than the scale length of the disk
+        while (true)
+        {
+            diskScaleTry = randGen.genDiskScale(io);
+            barLenTry = randGen.genBarLen(io);
+            if(barInput == barFerrer || barInput == barFreeman)
+            {
+                if(barLenTry < diskScaleTry)
+                {
+                    break;
+                }
+            }
+            if(barInput == barFlat)
+            {
+                barScaleTry = randGen.genBarScale(io);
+                if(barLenTry < diskScaleTry && barScaleTry < diskScaleTry)
+                {
+                    break;
+                }
+            }
+        
+            
+        }
+        // makes sure the bar is more eccentric than the disk
+        while (true)
+        {
+            incTry = randGen.genInclination(io);
+            float disk_e = 1.0f - acos(doRadCon(incTry));
+            barEllipTry = randGen.genBarEccen(io);
+        
+            if(barEllipTry > disk_e)
+            {
+            inclination = incTry;
+                break;
+            }
+        }
+    }
+    else
     {
         surfDiskTry = randGen.genSurfDisk(io);
-        surfBarTry = randGen.genSurfBar(io);
-        const float cond = surfDiskTry - surfBarTry;
-        
-        if(cond > 0.0f && cond < 1.0f)
-        {
-            break;
-        }
-    }
-    // makes sure the bar is shorter than the scale length of the disk
-    while (true)
-    {
         diskScaleTry = randGen.genDiskScale(io);
-        barLenTry = randGen.genBarLen(io);
-        if(barInput == barFlat)
-        {
-            barScaleTry = randGen.genBarScale(io);
-        }
-        
-        if(barLenTry < diskScaleTry)
-        {
-            break;
-        }
-    }
-    // makes sure the bar is more eccentric than the disk
-    while (true)
-    {
-        incTry = randGen.genInclination(io);
-        float disk_e = 1.0f - acos(doRadCon(incTry));
-        barEllipTry = randGen.genBarEccen(io);
-        
-        if(barEllipTry > disk_e)
-        {
-            inclination = incTry;
-            break;
-        }
+        inclination = randGen.genInclination(io);
     }
 }
 
@@ -73,14 +90,17 @@ void Galaxy::writeParams()
     std::cout << "Disk scale (kpc) = " << disk.GetScale() << std::endl;
     std::cout << "Disk pa = " << disk.GetPa() << std::endl;
     std::cout << std::endl;
-    std::cout << "Bar surf bright = " << surfBarTry << std::endl;
-    std::cout << "Bar cen_int = " << bar.GetCenInt() << std::endl;
-    std::cout << "Bar ellip = " << bar.GetEllip() << std::endl;
-    std::cout << "Bar len (kpc) = " << bar.GetLen() << std::endl;
-    std::cout << "Bar pa = " << bar.GetPa() << std::endl;
-    if(barInput == barFlat)
+    if(barInput != barNo)
     {
-        std::cout << "Bar scale (kpc) = " << bar.GetScale() << std::endl;
+        std::cout << "Bar surf bright = " << surfBarTry << std::endl;
+        std::cout << "Bar cen_int = " << bar.GetCenInt() << std::endl;
+        std::cout << "Bar ellip = " << bar.GetEllip() << std::endl;
+        std::cout << "Bar len (kpc) = " << bar.GetLen() << std::endl;
+        std::cout << "Bar pa = " << bar.GetPa() << std::endl;
+        if(barInput == barFlat)
+        {
+            std::cout << "Bar scale (kpc) = " << bar.GetScale() << std::endl;
+        }
     }
 }
 
@@ -91,21 +111,24 @@ void Galaxy::setDisk(float zeropoint, float exptime, float pix, UserInput& io)
 
 void Galaxy::setBar(float zeropoint, float exptime, float pix, UserInput& io)
 {
-    if(barInput == barFerrer)
+    if(barInput != barNo)
     {
-        bar.makeBarFerrer(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),zeropoint,exptime,pix);
-    }
-    else if(barInput == barFlat)
-    {
-        bar.makeBarFlat(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),barScaleTry,zeropoint,exptime,pix);
-    }
-    else if(barInput == barFreeman)
-    {
-        bar.makeBarFreeman(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),zeropoint,exptime,pix);
-    }
-    else
-    {
-        std::cout << "Error: Wrong input for bar profile." << std::endl;
+        if(barInput == barFerrer)
+        {
+            bar.makeBarFerrer(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),zeropoint,exptime,pix);
+        }
+        else if(barInput == barFlat)
+        {
+            bar.makeBarFlat(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),barScaleTry,zeropoint,exptime,pix);
+        }
+        else if(barInput == barFreeman)
+        {
+            bar.makeBarFreeman(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),zeropoint,exptime,pix);
+        }
+        else
+        {
+            std::cout << "Error: Wrong input for bar profile." << std::endl;
+        }
     }
 }
 
@@ -125,7 +148,10 @@ void Galaxy::genCoordsNew(int x_in, int y_in, int xcen, int ycen)
     // bar coordinate
     const float x_bar = (float(x_in-xcen)*cos(pa_bar_rad) + float(y_in-ycen)*sin(pa_bar_rad))/cos(inc_rad);
     const float y_bar = float(y_in-ycen)*cos(pa_bar_rad) - float(x_in-xcen)*sin(pa_bar_rad);
-    bar_coord = pow(pow(abs(x_bar),shape) + pow(abs(y_bar/(1.0f - ellip)),shape),1.0f/shape);
+    if(barInput != barNo)
+    {
+        bar_coord = pow(pow(abs(x_bar),shape) + pow(abs(y_bar/(1.0f - ellip)),shape),1.0f/shape);
+    }
 }
 
 float Galaxy::diskInten(float factor)
@@ -146,6 +172,10 @@ float Galaxy::barInten(float factor)
     else if(barInput == barFreeman)
     {
         return bar.intenFreeman(bar_coord, factor);
+    }
+    else if(barInput == barNo)
+    {
+        return 0.0f;
     }
     else
     {
