@@ -7,6 +7,8 @@
 //
 
 #include <iostream>
+#include <fstream>
+#include <iomanip>
 
 #include "Galaxy.h"
 #include "math.h"
@@ -80,26 +82,90 @@ void Galaxy::setGalaxy(UserInput& io, std::string filename)
     }
 }
 
-void Galaxy::writeParams()
+void Galaxy::writeParamsTerminal()
 {
-    std::cout << "Distance (Mpc) = " << distance << std::endl;
-    std::cout << "Inclination = " << inclination << std::endl;
+    int align = 5;
+    
+    std::cout << std::right << std::setw(align) << "Distance (Mpc) = ";
+    std::cout << std::right << std::setw(align) <<distance << std::endl;
+    std::cout << std::right << std::setw(align) << "Inclination = ";
+    std::cout << std::right << std::setw(align) <<inclination << std::endl;
     std::cout << std::endl;
-    std::cout << "Disk surf bright = " << surfDiskTry << std::endl;
-    std::cout << "Disk cen_int = " << disk.GetCenInt() << std::endl;
-    std::cout << "Disk scale (kpc) = " << disk.GetScale() << std::endl;
-    std::cout << "Disk pa = " << disk.GetPa() << std::endl;
-    std::cout << std::endl;
+    std::cout << std::right << std::setw(align) << "Disk surf bright = ";
+    std::cout << std::right << std::setw(align) <<surfDiskTry << std::endl;
+    std::cout << std::right << std::setw(align) << "Disk cen_int = ";
+    std::cout << std::right << std::setw(align) <<disk.GetCenInt() << std::endl;
+    std::cout << std::right << std::setw(align) << "Disk scale (kpc) = ";
+    std::cout << std::right << std::setw(align) <<disk.GetScale() << std::endl;
+    std::cout << std::right << std::setw(align) << "Disk pa = ";
+    std::cout << std::right << std::setw(align) <<disk.GetPa() << std::endl;
+    std::cout << std::right << std::setw(align) << std::endl;
     if(barInput != barNo)
     {
-        std::cout << "Bar surf bright = " << surfBarTry << std::endl;
-        std::cout << "Bar cen_int = " << bar.GetCenInt() << std::endl;
-        std::cout << "Bar ellip = " << bar.GetEllip() << std::endl;
-        std::cout << "Bar len (kpc) = " << bar.GetLen() << std::endl;
-        std::cout << "Bar pa = " << bar.GetPa() << std::endl;
+        std::cout << std::right << std::setw(align) << "Bar surf bright = ";
+        std::cout << std::right << std::setw(align) <<surfBarTry << std::endl;
+        std::cout << std::right << std::setw(align) << "Bar cen_int = ";
+        std::cout << std::right << std::setw(align) <<bar.GetCenInt() << std::endl;
+        std::cout << std::right << std::setw(align) << "Bar ellip = ";
+        std::cout << std::right << std::setw(align) <<bar.GetEllip() << std::endl;
+        std::cout << std::right << std::setw(align) << "Bar len (kpc) = ";
+        std::cout << std::right << std::setw(align) <<bar.GetLen() << std::endl;
+        std::cout << std::right << std::setw(align) << "Bar pa = ";
+        std::cout << std::right << std::setw(align) <<bar.GetPa() << std::endl;
         if(barInput == barFlat)
         {
-            std::cout << "Bar scale (kpc) = " << bar.GetScale() << std::endl;
+            std::cout << std::right << std::setw(align) << "Bar scale (kpc) = ";
+            std::cout << std::right << std::setw(align) << bar.GetScale() << std::endl;
+        }
+    }
+}
+
+void Galaxy::writeParamsFile(std::string output_in, float factor)
+{
+    std::string output = output_in + "_params.txt";
+    
+    std::ifstream fileCheck(output);
+    if(fileCheck)
+    {
+        if(std::remove(output.c_str()) != 0)
+        {
+            perror("Error deleting file.");
+        }
+        else
+        {
+            //puts("Deleted file.");
+        }
+    }
+    
+    std::ofstream ofs;
+    ofs.open(output, std::ofstream::out | std::ofstream::app);
+    
+    int align = 20;
+    
+    ofs << std::right << std::setw(align) << "distance ";
+    ofs << std::right << std::setw(align) << distance << std:: endl;
+    ofs << std::right << std::setw(align) << "inclination ";
+    ofs << std::right << std::setw(align) << inclination << std::endl;
+    ofs << std::right << std::setw(align) << "cen_i_disk ";
+    ofs << std::right << std::setw(align) << disk.GetCenInt() << std::endl;
+    ofs << std::right << std::setw(align) << "pa_disk ";
+    ofs << std::right << std::setw(align) << disk.GetPa() << std::endl;
+    ofs << std::right << std::setw(align) << "disk_scale ";
+    ofs << std::right << std::setw(align) << disk.GetScale() << std::endl;
+    if(barInput != barNo)
+    {
+        ofs << std::right << std::setw(align) << "cen_i_bar ";
+        ofs << std::right << std::setw(align) << bar.GetCenInt() << std::endl;
+        ofs << std::right << std::setw(align) << "pa_bar ";
+        ofs << std::right << std::setw(align) << bar.GetPa() << std::endl;
+        ofs << std::right << std::setw(align) << "e_bar ";
+        ofs << std::right << std::setw(align) << bar.GetEllip() << std::endl;
+        ofs << std::right << std::setw(align) << "bar_len (pixels) ";
+        ofs << std::right << std::setw(align) << bar.GetLen()*factor << std::endl;
+        if(barInput == barFlat)
+        {
+            ofs << std::right << std::setw(align) << "bar_scale ";
+            ofs << std::right << std::setw(align) << bar.GetScale() << std::endl;
         }
     }
 }

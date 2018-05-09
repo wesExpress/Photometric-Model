@@ -20,7 +20,8 @@ class Galaxy
 {
 public:
     void setGalaxy(UserInput& io, std::string filename);
-    void writeParams();
+    void writeParamsTerminal();
+    void writeParamsFile(std::string output_in, float factor);
     void setDisk(float zeropoint, float exptime, float pix, UserInput& io);
     void setBar(float zeropoint, float exptime, float pix, UserInput& io);
     void genCoordsNew(int x_in, int y_in, int xcen, int ycen);
