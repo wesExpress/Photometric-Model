@@ -19,7 +19,7 @@
 class Galaxy
 {
 public:
-    void setGalaxy(UserInput& io);
+    void setGalaxy(UserInput& io, std::string filename);
     void writeParams();
     void setDisk(float zeropoint, float exptime, float pix, UserInput& io);
     void setBar(float zeropoint, float exptime, float pix, UserInput& io);

@@ -13,9 +13,9 @@
 
 #define PI 3.1415926535
 
-void Galaxy::setGalaxy(UserInput& io)
+void Galaxy::setGalaxy(UserInput& io, std::string filename)
 {
-    io.ReadInputs();
+    io.ReadInputs(filename);
     
     barInput = std::stof(io.GetValue(barInputString, 0));
     
