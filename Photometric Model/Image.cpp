@@ -8,6 +8,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <cstdio>
 
 #include "Image.h"
 
@@ -33,6 +34,19 @@ void Image::createImage()
 {
     name = "output";
     std::string output = io.GetValue(name, 0) + ".txt";
+    
+    std::ifstream fileCheck(output);
+    if(fileCheck)
+    {
+        if(std::remove(output.c_str()) != 0)
+        {
+            perror("Error deleting file.");
+        }
+        else
+        {
+            //puts("Deleted file.");
+        }
+    }
     
     // open text file for output
     std::ofstream ofs;
@@ -86,6 +100,19 @@ void Image::convolveImage(float ccdArray[], int rowsIn)
 {
     name = "output_conv";
     std::string output = io.GetValue(name, 0) + ".txt";
+    
+    std::ifstream fileCheck(output);
+    if(fileCheck)
+    {
+        if(std::remove(output.c_str()) != 0)
+        {
+            perror("Error deleting file.");
+        }
+        else
+        {
+            //puts("Deleted file.");
+        }
+    }
     
     std::ofstream ofs;
     ofs.open(output, std::ofstream::out | std::ofstream::app);
