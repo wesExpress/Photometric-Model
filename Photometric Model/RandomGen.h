@@ -45,6 +45,9 @@ public:
     int genHoleY(const CCD& ccd);
     float genHolePercent();
     float genHoleRadii();
+    
+    // seeing
+    float genSeeing(UserInput& io);
 private:
     // random initializations
     std::random_device rd;

@@ -127,3 +127,10 @@ float RandomGen::genHoleRadii()
     std::uniform_real_distribution<float> holeRadii{40.0f,120.0f};
     return holeRadii(rng);
 }
+
+float RandomGen::genSeeing(UserInput& io)
+{
+    name = "seeing";
+    std::uniform_real_distribution<float> seeing{std::stof(io.GetValue(name,minCol)),std::stof(io.GetValue(name,maxCol))};
+    return seeing(rng);
+}
