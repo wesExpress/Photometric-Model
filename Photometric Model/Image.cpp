@@ -20,20 +20,20 @@ void Image::Run(std::string filename, std::string output)
 
 void Image::setComponents(std::string filename, std::string output)
 {
-    galaxy.setGalaxy(io,filename);
+    galaxy.setGalaxy(io,filename,randG);
     
     dist_kpc = galaxy.getDistance()*1000.;
     pix_factor = 1.0f/dist_kpc*206265.0f/ccd.GetPix();
 
-    galaxy.setDisk(ccd.GetZeropt(),ccd.GetExpt(),ccd.GetPix(),io);
-    galaxy.setBar(ccd.GetZeropt(),ccd.GetExpt(),ccd.GetPix(),io);
+    galaxy.setDisk(ccd,io,randG);
+    galaxy.setBar(ccd,io,randG);
     
     galaxy.writeParamsTerminal();
     galaxy.writeParamsFile(output,pix_factor);
     
     if(kernel.convolve(io))
     {
-        kernel.ReadSeeing(io);
+        kernel.ReadSeeing(io,randG);
     }
 }
 

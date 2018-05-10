@@ -17,6 +17,7 @@
 #include "Kernel.h"
 #include "UserInput.h"
 #include "Timer.h"
+#include "RandomGen.h"
 
 class Image
 {
@@ -27,6 +28,8 @@ public:
     void convolveImage(float ccdArray[], int rowsIn, std::string output_in);
     float GetCCDInt(int nx, int ny);
 private:
+    RandomGen randG;
+    
     // components of image
     Galaxy galaxy;
     Noise noise;
