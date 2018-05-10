@@ -10,7 +10,7 @@ Inputs
 ------
 Code takes a file called "inputs.txt" currently that contains the min (second column) and max (third column) values for the parameter (first column) distributions. Need to leave first line blank or have '//', since std::getline skips this line for some reason. The parameters don't need to be in any order, as the code searches for each parameter needed based on a string, the first column of the input file. For disk_profile and bar_profile, only the second column needs a number, the third can be anything. **For disk_profile**, 1 = sersic profile. **For bar_profile**, 1 = Ferrer, 2 = Flat and 3 = Freeman. 0 = no bar. Likewise, the seeing parameters (seeing, fwhm, beta) only need a number in the second column. **If seeing is 1**, then the program convolves the CCD intensity with a Moffat profile given the next two parameters (FWHM and beta). **If patchy_disk is 1**, then the program adds some 'holes' to the disk in order to make it less perfect. 
 
-The program also takes in two arguments: input file name and output base. An example correct execution would be: **./Photometric\ Model input.txt output**. This would read in input.txt, and then create output.txt to be turned into a fits file, as well as output_conv.txt if seeing convolution is requested.
+The program also takes in two arguments: input file name and output base. An example correct execution would be: **./PhotometricModel input.txt output**. This would read in input.txt, and then create output.txt to be turned into a fits file, as well as output_conv.txt if seeing convolution is requested. 
 
 The current accepted parameters for the input file are (with the required string name):
 + **disk_profile** --> 1 for sersic
@@ -30,13 +30,21 @@ The current accepted parameters for the input file are (with the required string
 + **fwhm** --> fwhm of seeing of image (must be in pixels)
 + **beta** --> shape of Moffat profile
 
+An example input file is available in this repo.
+
+Compiling
+-------
+To compile on Linux, simply cd to the directory where you've placed all the files and enter **g++ -std=c+11 \*.cpp -o PhotometricModel**
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
 Disk
 ----
 + central surface brightness --> turned into ADU counts
 + scale length --> in kpc
 + position angle --> in degrees
 
-Currently, only a pure Sèrsic profile is assumed.
+Currently, only a pure Sérsic profile is assumed.
 
 Bar
 ---
