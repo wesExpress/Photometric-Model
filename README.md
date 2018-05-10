@@ -44,7 +44,7 @@ Disk
 + scale length --> in kpc
 + position angle --> in degrees
 
-Currently, only a pure Sèrsic profile is assumed.
+Currently, only a pure Sérsic profile is assumed.
 
 Bar
 ---
