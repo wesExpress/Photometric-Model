@@ -12,12 +12,13 @@
 #include <stdio.h>
 #include "math.h"
 #include "UserInput.h"
+#include "RandomGen.h"
 #include <string>
 
 class Kernel
 {
 public:
-    void ReadSeeing(UserInput& io);
+    void ReadSeeing(UserInput& io, RandomGen& randG);
     void calculateMoffat();
     int GetCols();
     int GetRows();
