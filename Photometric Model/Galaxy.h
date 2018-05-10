@@ -15,23 +15,22 @@
 #include "Disk.h"
 #include "Bar.h"
 #include "UserInput.h"
+#include "CCD.h"
 
 class Galaxy
 {
 public:
-    void setGalaxy(UserInput& io, std::string filename);
+    void setGalaxy(UserInput& io, std::string filename, RandomGen& randG);
     void writeParamsTerminal();
     void writeParamsFile(std::string output_in, float factor);
-    void setDisk(float zeropoint, float exptime, float pix, UserInput& io);
-    void setBar(float zeropoint, float exptime, float pix, UserInput& io);
+    void setDisk(CCD& ccd, UserInput& io, RandomGen& randG);
+    void setBar(CCD& ccd, UserInput& io, RandomGen& randG);
     void genCoordsNew(int x_in, int y_in, int xcen, int ycen);
     float diskInten(float factor);
     float barInten(float factor);
     float getDistance() const;
     float getInclination() const;
 private:
-    RandomGen randGen;
-    
     // parameters of the galaxy
     float x;
     float y;

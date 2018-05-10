@@ -15,21 +15,21 @@
 
 #define PI 3.1415926535
 
-void Galaxy::setGalaxy(UserInput& io, std::string filename)
+void Galaxy::setGalaxy(UserInput& io, std::string filename, RandomGen& randG)
 {
     io.ReadInputs(filename);
     
     barInput = std::stof(io.GetValue(barInputString, 0));
     
-    distance = randGen.genDistance(io);
+    distance = randG.genDistance(io);
     
     if(barInput != barNo)
     {
         // makes sure the disk is fainter than bar
         while (true)
         {
-            surfDiskTry = randGen.genSurfDisk(io);
-            surfBarTry = randGen.genSurfBar(io);
+            surfDiskTry = randG.genSurfDisk(io);
+            surfBarTry = randG.genSurfBar(io);
             const float cond = surfDiskTry - surfBarTry;
         
             if(cond > 0.0f && cond < 1.0f)
@@ -40,8 +40,8 @@ void Galaxy::setGalaxy(UserInput& io, std::string filename)
         // makes sure the bar is shorter than the scale length of the disk
         while (true)
         {
-            diskScaleTry = randGen.genDiskScale(io);
-            barLenTry = randGen.genBarLen(io);
+            diskScaleTry = randG.genDiskScale(io);
+            barLenTry = randG.genBarLen(io);
             if(barInput == barFerrer || barInput == barFreeman)
             {
                 if(barLenTry < diskScaleTry)
@@ -51,7 +51,7 @@ void Galaxy::setGalaxy(UserInput& io, std::string filename)
             }
             if(barInput == barFlat)
             {
-                barScaleTry = randGen.genBarScale(io);
+                barScaleTry = randG.genBarScale(io);
                 if(barLenTry < diskScaleTry && barScaleTry < diskScaleTry)
                 {
                     break;
@@ -63,9 +63,9 @@ void Galaxy::setGalaxy(UserInput& io, std::string filename)
         // makes sure the bar is more eccentric than the disk
         while (true)
         {
-            incTry = randGen.genInclination(io);
+            incTry = randG.genInclination(io);
             float disk_e = 1.0f - acos(doRadCon(incTry));
-            barEllipTry = randGen.genBarEccen(io);
+            barEllipTry = randG.genBarEccen(io);
         
             if(barEllipTry > disk_e)
             {
@@ -76,9 +76,9 @@ void Galaxy::setGalaxy(UserInput& io, std::string filename)
     }
     else
     {
-        surfDiskTry = randGen.genSurfDisk(io);
-        diskScaleTry = randGen.genDiskScale(io);
-        inclination = randGen.genInclination(io);
+        surfDiskTry = randG.genSurfDisk(io);
+        diskScaleTry = randG.genDiskScale(io);
+        inclination = randG.genInclination(io);
     }
 }
 
@@ -170,26 +170,32 @@ void Galaxy::writeParamsFile(std::string output_in, float factor)
     }
 }
 
-void Galaxy::setDisk(float zeropoint, float exptime, float pix, UserInput& io)
+void Galaxy::setDisk(CCD& ccd, UserInput& io, RandomGen& randG)
 {
-    disk.makeDisk(surfDiskTry,diskScaleTry,randGen.genDiskPA(io),zeropoint,exptime,pix);
+    disk.makeDisk(surfDiskTry,diskScaleTry,randG.genDiskPA(io),ccd.GetZeropt(),ccd.GetExpt(),ccd.GetPix());
 }
 
-void Galaxy::setBar(float zeropoint, float exptime, float pix, UserInput& io)
+void Galaxy::setBar(CCD& ccd, UserInput& io, RandomGen& randG)
 {
+    float barPa = randG.genBarPa(io);
+    float barShape = randG.genBarShape(io);
+    float zeropt = ccd.GetZeropt();
+    float expt = ccd.GetExpt();
+    float pix = ccd.GetPix();
+    
     if(barInput != barNo)
     {
         if(barInput == barFerrer)
         {
-            bar.makeBarFerrer(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),zeropoint,exptime,pix);
+            bar.makeBarFerrer(surfBarTry,barPa,barEllipTry,barLenTry,barShape,zeropt,expt,pix);
         }
         else if(barInput == barFlat)
         {
-            bar.makeBarFlat(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),barScaleTry,zeropoint,exptime,pix);
+            bar.makeBarFlat(surfBarTry,barPa,barEllipTry,barLenTry,barShape,barScaleTry,zeropt,expt,pix);
         }
         else if(barInput == barFreeman)
         {
-            bar.makeBarFreeman(surfBarTry,randGen.genBarPa(io),barEllipTry,barLenTry,randGen.genBarShape(io),zeropoint,exptime,pix);
+            bar.makeBarFreeman(surfBarTry,barPa,barEllipTry,barLenTry,barShape,zeropt,expt,pix);
         }
         else
         {
