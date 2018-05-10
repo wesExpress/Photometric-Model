@@ -47,7 +47,7 @@ public:
     float genHoleRadii();
     
     // seeing
-    float genSeeing(UserInput& io);
+    float genFWHM(UserInput& io);
 private:
     // random initializations
     std::random_device rd;

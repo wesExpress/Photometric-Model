@@ -128,9 +128,9 @@ float RandomGen::genHoleRadii()
     return holeRadii(rng);
 }
 
-float RandomGen::genSeeing(UserInput& io)
+float RandomGen::genFWHM(UserInput& io)
 {
-    name = "seeing";
+    name = "fwhm";
     std::uniform_real_distribution<float> seeing{std::stof(io.GetValue(name,minCol)),std::stof(io.GetValue(name,maxCol))};
     return seeing(rng);
 }

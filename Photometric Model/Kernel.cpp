@@ -25,7 +25,7 @@ bool Kernel::convolve(UserInput& io)
 void Kernel::ReadSeeing(UserInput& io, RandomGen& randG)
 {
     // must be in pixels!!! //
-    fwhm = randG.genSeeing(io);
+    fwhm = randG.genFWHM(io);
     name = "beta";
     beta = std::stof(io.GetValue(name,0));
     alpha = fwhm/(2.0f*sqrt(pow(2.0f,1.0f/beta) - 1.0f));
