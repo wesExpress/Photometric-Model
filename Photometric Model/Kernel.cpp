@@ -80,3 +80,8 @@ float Kernel::GetMoffat(int i, int j)
 {
     return moffat[i*rows + j];
 }
+
+float Kernel::GetFWHM()
+{
+    return fwhm;
+}

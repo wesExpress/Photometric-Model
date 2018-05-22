@@ -24,6 +24,7 @@ public:
     int GetRows();
     float GetMoffat(int i, int j);
     bool convolve(UserInput& io);
+    float GetFWHM();
 private:
     static constexpr int cols = 11;
     static constexpr int rows = 11;
