@@ -9,6 +9,7 @@
 #include <fstream>
 #include <iostream>
 #include <cstdio>
+#include <iomanip>
 
 #include "Image.h"
 
@@ -29,12 +30,13 @@ void Image::setComponents(std::string filename, std::string output)
     galaxy.setBar(ccd,io,randG);
     
     galaxy.writeParamsTerminal();
-    galaxy.writeParamsFile(output,pix_factor);
     
     if(kernel.convolve(io))
     {
         kernel.ReadSeeing(io,randG);
     }
+    
+    writeImageParams(output);
 }
 
 void Image::createImage(std::string output_in)
@@ -196,4 +198,32 @@ float Image::GetCCDInt(int nx, int ny)
     inten += noise.GenNoise();
     
     return inten;
+}
+
+void Image::writeImageParams(std::string output_in)
+{
+    std::string output = output_in + "_params.txt";
+    
+    std::ifstream fileCheck(output);
+    if(fileCheck)
+    {
+        if(std::remove(output.c_str()) != 0)
+        {
+            perror("Error deleting file.");
+        }
+        else
+        {
+            //puts("Deleted file.");
+        }
+    }
+    
+    galaxy.writeParamsFile(output,pix_factor);
+    
+    std::ofstream ofs;
+    ofs.open(output, std::ofstream::out | std::ofstream::app);
+    
+    int align = 20;
+    
+    ofs << std::right << std::setw(align) << "seeing ";
+    ofs << std::right << std::setw(align) << kernel.GetFWHM() << std:: endl;
 }

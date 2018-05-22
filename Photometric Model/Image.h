@@ -27,6 +27,7 @@ public:
     void createImage(std::string output_in);
     void convolveImage(float ccdArray[], int rowsIn, std::string output_in);
     float GetCCDInt(int nx, int ny);
+    void writeImageParams(std::string output_in);
 private:
     RandomGen randG;
     
