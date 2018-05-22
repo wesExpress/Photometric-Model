@@ -120,23 +120,8 @@ void Galaxy::writeParamsTerminal()
     }
 }
 
-void Galaxy::writeParamsFile(std::string output_in, float factor)
+void Galaxy::writeParamsFile(std::string output, float factor)
 {
-    std::string output = output_in + "_params.txt";
-    
-    std::ifstream fileCheck(output);
-    if(fileCheck)
-    {
-        if(std::remove(output.c_str()) != 0)
-        {
-            perror("Error deleting file.");
-        }
-        else
-        {
-            //puts("Deleted file.");
-        }
-    }
-    
     std::ofstream ofs;
     ofs.open(output, std::ofstream::out | std::ofstream::app);
     
